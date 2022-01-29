@@ -17,6 +17,6 @@ fun SearchScreen(
         navigateToMainMenuScreen()
     }
 
-    Text(text = "HELLO!!")
+    SearchScreenContent()
 
 }
