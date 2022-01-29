@@ -13,7 +13,7 @@ fun NavGraphBuilder.mainMenuComposable(
         route = MAINMENU_SCREEN
     ) {
         MainMenuScreen(
-            navigateToSearchScreen = {}
+            navigateToSearchScreen = navigateToSearchScreen
         )
     }
 }

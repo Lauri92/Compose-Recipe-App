@@ -25,7 +25,6 @@ import fi.lauriari.recipe_app.R
 fun MainMenuContent(
     navigateToSearchScreen: () -> Unit
 ) {
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -43,14 +42,12 @@ fun MainMenuContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MainMenuButton(
-                context = context,
                 buttonText = "Browse Recipes",
-                toastText = "Navigate to Search screen"
+                navigateToSearchScreen = navigateToSearchScreen
             )
             MainMenuButton(
-                context = context,
                 buttonText = "Browse Favorites",
-                toastText = "Navigate to Favorites screen"
+                navigateToSearchScreen = {}
             )
         }
     }
@@ -58,17 +55,14 @@ fun MainMenuContent(
 
 @Composable
 fun MainMenuButton(
-    context: Context,
     buttonText: String,
-    toastText: String,
+    navigateToSearchScreen: () -> Unit
 ) {
     OutlinedButton(
         modifier = Modifier
             .padding(32.dp),
         onClick = {
-            Toast.makeText(
-                context, toastText, Toast.LENGTH_SHORT
-            ).show()
+            navigateToSearchScreen()
         },
         border = BorderStroke(2.dp, Color.Black),
         shape = RoundedCornerShape(50.dp),
