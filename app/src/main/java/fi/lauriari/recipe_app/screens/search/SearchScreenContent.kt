@@ -19,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import fi.lauriari.recipe_app.R
+import fi.lauriari.recipe_app.components.FilterDropDown
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -33,11 +34,12 @@ fun SearchScreenContent(
     val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
-            .padding(all = 5.dp)
+            .padding(all = 12.dp)
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = searchTextState,
+            label = { Text(text = stringResource(id = R.string.search)) },
             placeholder = {
                 Text(text = stringResource(id = R.string.search_for_food_ph))
             },
@@ -73,6 +75,64 @@ fun SearchScreenContent(
                 },
             )
         )
+        Divider(
+            modifier = Modifier
+                .height(8.dp),
+            color = MaterialTheme.colors.background
+        )
+        val cuisineTypeArray = listOf(
+            "American",
+            "Asian",
+            "British",
+            "Caribbean",
+            "Central Europea",
+            "Chinese",
+            "Eastern Europe",
+            "French",
+            "Indian",
+            "Italin",
+            "Japanese",
+            "Kosher",
+            "Mediterranean",
+            "Mexican",
+            "Middle Eastern",
+            "Nordic",
+            "South American",
+            "South East Asian"
+
+        )
+        val mealTypeArray = listOf("Breakfast", "Dinner", "Lunch", "Snack", "Teatime")
+        val dishTypeArray = listOf(
+            "Biscuits and Cookies",
+            "Breads", "Cereals", "Condiments and sauces",
+            "Desserts", "Drinks", "Main Course",
+            "Pancake", "Preps", "Preserve",
+            "Salad", "Sandwiches", "Side dish",
+            "Soup", "Starter", "Sweets"
+        )
+        FilterDropDown(
+            filterArray = cuisineTypeArray,
+            filterArrayLabel = "Cuisine Type"
+        )
+        Divider(
+            modifier = Modifier
+                .height(8.dp),
+            color = MaterialTheme.colors.background
+        )
+        FilterDropDown(
+            filterArray = mealTypeArray,
+            filterArrayLabel = "Meal Type"
+        )
+        Divider(
+            modifier = Modifier
+                .height(8.dp),
+            color = MaterialTheme.colors.background
+        )
+        FilterDropDown(
+            filterArray = dishTypeArray,
+            filterArrayLabel = "Dish type"
+        )
+
     }
 
 }
