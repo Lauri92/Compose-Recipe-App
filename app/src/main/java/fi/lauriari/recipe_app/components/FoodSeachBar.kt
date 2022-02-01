@@ -43,7 +43,11 @@ fun FoodSearchBar(
         trailingIcon = {
             IconButton(
                 onClick = {
-                    Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
+                    val values = "Cuisine type: ${mainViewModel.cuisineType.value} \n" +
+                            "Meal type: ${mainViewModel.mealType.value} \n" +
+                            "Dish type: ${mainViewModel.dishType.value}\n" +
+                            "Search text value: $searchTextState"
+                    Toast.makeText(context, values, Toast.LENGTH_SHORT).show()
                     focusManager.clearFocus()
                 },
             ) {
@@ -59,7 +63,11 @@ fun FoodSearchBar(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
+                val values = "Cuisine type: ${mainViewModel.cuisineType.value} \n" +
+                        "Meal type: ${mainViewModel.mealType.value} \n" +
+                        "Dish type: ${mainViewModel.dishType.value}\n" +
+                        "Search text value: $searchTextState"
+                Toast.makeText(context, values, Toast.LENGTH_SHORT).show()
                 focusManager.clearFocus()
             },
         )

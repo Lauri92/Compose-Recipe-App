@@ -8,5 +8,8 @@ class MainViewModel : ViewModel() {
 
 
     val searchTextState: MutableState<String> = mutableStateOf("")
+    val cuisineType: MutableState<String> = mutableStateOf("Cuisine Type")
+    val mealType: MutableState<String> = mutableStateOf("Meal Type")
+    val dishType: MutableState<String> = mutableStateOf("Dish Type")
 
 }

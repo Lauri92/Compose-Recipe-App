@@ -22,7 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun FilterDropDown(filterArray: List<String>, filterArrayLabel: String) {
+fun FilterDropDown(
+    filterArray: List<String>,
+    onSelectedFilterType: (String) -> Unit,
+    filterType: String,
+) {
 
     var expanded by remember { mutableStateOf(false) }
     val angle: Float by animateFloatAsState(
@@ -53,7 +57,7 @@ fun FilterDropDown(filterArray: List<String>, filterArrayLabel: String) {
             modifier = Modifier
                 .padding(8.dp)
                 .weight(8f),
-            text = filterArrayLabel,
+            text = filterType,
             style = MaterialTheme.typography.subtitle2
         )
         IconButton(
@@ -77,7 +81,10 @@ fun FilterDropDown(filterArray: List<String>, filterArrayLabel: String) {
         ) {
             filterArray.forEach { filterArrayItem ->
                 DropdownMenuItem(
-                    onClick = { expanded = false })
+                    onClick = {
+                        expanded = false
+                        onSelectedFilterType(filterArrayItem)
+                    })
                 {
                     FilterItem(
                         filterItemName = filterArrayItem,
@@ -93,9 +100,10 @@ fun FilterDropDown(filterArray: List<String>, filterArrayLabel: String) {
 @Composable
 @Preview
 fun FilterDropDownPreview() {
-    val list = listOf<String>("American", "Asian", "British")
+    val list = listOf("American", "Asian", "British")
     FilterDropDown(
         filterArray = list,
-        filterArrayLabel = "Cuisine type"
+        onSelectedFilterType = {},
+        filterType = "cuisineType",
     )
 }

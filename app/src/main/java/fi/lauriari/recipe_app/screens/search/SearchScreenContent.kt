@@ -1,26 +1,13 @@
 package fi.lauriari.recipe_app.screens.search
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import fi.lauriari.recipe_app.R
 import fi.lauriari.recipe_app.components.FilterDropDown
 import fi.lauriari.recipe_app.components.FoodSearchBar
 import fi.lauriari.recipe_app.util.Constants.CUISINE_TYPES
@@ -32,7 +19,13 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 @Composable
 fun SearchScreenContent(
     mainViewModel: MainViewModel,
-    searchTextState: String
+    searchTextState: String,
+    cuisineType: String,
+    onCuisineTypeSelected: (String) -> Unit,
+    mealType: String,
+    onMealTypeSelected: (String) -> Unit,
+    dishType: String,
+    onDishTypeSelected: (String) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -55,8 +48,10 @@ fun SearchScreenContent(
 
         FilterDropDown(
             filterArray = CUISINE_TYPES,
-            filterArrayLabel = "Cuisine Type"
+            filterType = cuisineType,
+            onSelectedFilterType = onCuisineTypeSelected
         )
+
         Divider(
             modifier = Modifier
                 .height(8.dp),
@@ -64,8 +59,10 @@ fun SearchScreenContent(
         )
         FilterDropDown(
             filterArray = MEAL_TYPES,
-            filterArrayLabel = "Meal Type"
+            filterType = mealType,
+            onSelectedFilterType = onMealTypeSelected
         )
+
         Divider(
             modifier = Modifier
                 .height(8.dp),
@@ -73,7 +70,8 @@ fun SearchScreenContent(
         )
         FilterDropDown(
             filterArray = DISH_TYPES,
-            filterArrayLabel = "Dish type"
+            filterType = dishType,
+            onSelectedFilterType = onDishTypeSelected
         )
 
     }
