@@ -4,13 +4,18 @@ import androidx.navigation.NavController
 import fi.lauriari.recipe_app.util.Constants.MAINMENU_SCREEN
 
 class Screens(navController: NavController) {
-    val mainmenu: () -> Unit = {
+    val search: () -> Unit = {
         navController.navigate(route = "search")
     }
 
-    val search: () -> Unit = {
+    val mainmenu: () -> Unit = {
         navController.navigate(route = "mainmenu") {
             popUpTo(MAINMENU_SCREEN) { inclusive = true }
+        }
+    }
+    val searchResult: () -> Unit = {
+        navController.navigate(route = "searchResult") {
+
         }
     }
 }

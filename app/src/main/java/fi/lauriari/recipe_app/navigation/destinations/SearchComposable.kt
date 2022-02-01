@@ -8,7 +8,8 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 fun NavGraphBuilder.searchComposable(
     navigateToMainMenuScreen: () -> Unit,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    navigateToSearchResultScreen: () -> Unit
 ) {
     composable(
         route = SEARCH_SCREEN,
@@ -16,6 +17,7 @@ fun NavGraphBuilder.searchComposable(
 
         SearchScreen(
             navigateToMainMenuScreen = navigateToMainMenuScreen,
+            navigateToSearchResultScreen = navigateToSearchResultScreen,
             mainViewModel = mainViewModel
         )
     }

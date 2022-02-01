@@ -10,7 +10,8 @@ import androidx.compose.runtime.getValue
 @Composable
 fun SearchScreen(
     navigateToMainMenuScreen: () -> Unit,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    navigateToSearchResultScreen: () -> Unit
 ) {
     BackHandler {
         navigateToMainMenuScreen()
@@ -23,6 +24,7 @@ fun SearchScreen(
 
     SearchScreenContent(
         mainViewModel = mainViewModel,
+        navigateToSearchResultScreen = navigateToSearchResultScreen,
         searchTextState = searchTextState,
         cuisineType = cuisineType,
         onCuisineTypeSelected = {

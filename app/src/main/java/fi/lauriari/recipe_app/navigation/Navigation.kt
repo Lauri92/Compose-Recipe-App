@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import fi.lauriari.recipe_app.navigation.destinations.mainMenuComposable
 import fi.lauriari.recipe_app.navigation.destinations.searchComposable
+import fi.lauriari.recipe_app.navigation.destinations.searchResultComposable
 import fi.lauriari.recipe_app.util.Constants.MAINMENU_SCREEN
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
@@ -23,12 +24,17 @@ fun InitNavigation(
         startDestination = MAINMENU_SCREEN
     ) {
         mainMenuComposable(
-            navigateToSearchScreen = screen.mainmenu
+            navigateToSearchScreen = screen.search
         )
 
         searchComposable(
-            navigateToMainMenuScreen = screen.search,
+            navigateToMainMenuScreen = screen.mainmenu,
+            navigateToSearchResultScreen = screen.searchResult,
             mainViewModel = mainViewModel
         )
+        searchResultComposable(
+            mainViewModel = mainViewModel
+        )
+
     }
 }

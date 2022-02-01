@@ -23,7 +23,8 @@ fun FoodSearchBar(
     context: Context,
     mainViewModel: MainViewModel,
     searchTextState: String,
-    focusManager: FocusManager
+    focusManager: FocusManager,
+    navigateToSearchResultScreen: () -> Unit
 ) {
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
@@ -49,6 +50,7 @@ fun FoodSearchBar(
                             "Search text value: $searchTextState"
                     Toast.makeText(context, values, Toast.LENGTH_SHORT).show()
                     focusManager.clearFocus()
+                    navigateToSearchResultScreen()
                 },
             ) {
                 Icon(
@@ -69,6 +71,7 @@ fun FoodSearchBar(
                         "Search text value: $searchTextState"
                 Toast.makeText(context, values, Toast.LENGTH_SHORT).show()
                 focusManager.clearFocus()
+                navigateToSearchResultScreen()
             },
         )
     )

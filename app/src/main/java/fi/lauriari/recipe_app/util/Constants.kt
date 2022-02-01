@@ -4,6 +4,7 @@ object Constants {
 
     const val MAINMENU_SCREEN = "mainmenu"
     const val SEARCH_SCREEN = "search"
+    const val SEARCH_RESULT_SCREEN = "searchResult"
 
     val CUISINE_TYPES = listOf(
         "American",

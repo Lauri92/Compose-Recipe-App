@@ -19,6 +19,7 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 @Composable
 fun SearchScreenContent(
     mainViewModel: MainViewModel,
+    navigateToSearchResultScreen: () -> Unit,
     searchTextState: String,
     cuisineType: String,
     onCuisineTypeSelected: (String) -> Unit,
@@ -37,6 +38,7 @@ fun SearchScreenContent(
         FoodSearchBar(
             context = context,
             mainViewModel = mainViewModel,
+            navigateToSearchResultScreen = navigateToSearchResultScreen,
             searchTextState = searchTextState,
             focusManager = focusManager
         )
