@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import fi.lauriari.recipe_app.ui.theme.Typography
 
 @Composable
@@ -35,6 +36,7 @@ fun FilterItem(
         )
 
         Text(
+            fontSize = 15.sp,
             modifier = Modifier
                 .padding(8.dp),
             text = filterItemName,

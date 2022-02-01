@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun FilterDropDown(filterArray: List<String>, filterArrayLabel: String) {
@@ -48,6 +49,7 @@ fun FilterDropDown(filterArray: List<String>, filterArrayLabel: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
+            fontSize = 17.sp,
             modifier = Modifier
                 .padding(8.dp)
                 .weight(8f),
@@ -68,16 +70,17 @@ fun FilterDropDown(filterArray: List<String>, filterArrayLabel: String) {
         }
         DropdownMenu(
             modifier = Modifier
-                .width(with(LocalDensity.current) { parentSize.width.toDp() }),
+                .width(with(LocalDensity.current) { parentSize.width.toDp() })
+                .height(250.dp),
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            filterArray.forEach { filterItem ->
+            filterArray.forEach { filterArrayItem ->
                 DropdownMenuItem(
                     onClick = { expanded = false })
                 {
                     FilterItem(
-                        filterItemName = filterItem,
+                        filterItemName = filterArrayItem,
                         imageVector = Icons.Filled.Favorite
                     )
                 }
