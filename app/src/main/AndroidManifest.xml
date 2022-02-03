@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fi.lauriari.recipe_app">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,8 +24,16 @@
         </activity>
 
         <meta-data
-            android:name = "keyValue"
-            android:value = "${KEY}"/>
+            android:name="keyValue"
+            android:value="${KEY}" />
+
+        <meta-data
+            android:name="appIdValue"
+            android:value="${APP_ID}" />
+
+        <meta-data
+            android:name="appKeyValue"
+            android:value="${APP_KEY}" />
 
     </application>
 

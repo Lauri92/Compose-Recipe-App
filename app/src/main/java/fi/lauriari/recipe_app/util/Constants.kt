@@ -2,6 +2,8 @@ package fi.lauriari.recipe_app.util
 
 object Constants {
 
+    const val BASE_URL = "https://api.edamam.com/api/recipes/"
+
     const val MAINMENU_SCREEN = "mainmenu"
     const val SEARCH_SCREEN = "search"
     const val SEARCH_RESULT_SCREEN = "searchResult"
