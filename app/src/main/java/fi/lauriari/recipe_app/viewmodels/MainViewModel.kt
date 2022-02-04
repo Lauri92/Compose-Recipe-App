@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fi.lauriari.recipe_app.data.model.SearchResult
+import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.repository.RecipeRepository
 import fi.lauriari.recipe_app.util.RequestState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +24,8 @@ class MainViewModel : ViewModel() {
     val dishType: MutableState<String> = mutableStateOf("Dish Type")
 
     private var _sampleData =
-        MutableStateFlow<RequestState<Response<SearchResult>>>(RequestState.Idle)
-    val sampleData: StateFlow<RequestState<Response<SearchResult>>> = _sampleData
+        MutableStateFlow<RequestState<Response<EdamamSearchResult>>>(RequestState.Idle)
+    val sampleData: StateFlow<RequestState<Response<EdamamSearchResult>>> = _sampleData
 
     fun getSomeDataFromApi(appIdValue: String, appKeyValue: String) {
         _sampleData.value = RequestState.Loading

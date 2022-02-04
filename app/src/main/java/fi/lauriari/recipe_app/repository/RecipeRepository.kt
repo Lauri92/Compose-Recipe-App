@@ -1,9 +1,9 @@
 package fi.lauriari.recipe_app.repository
 
 
-import fi.lauriari.recipe_app.data.api.RecipeApiRetrofitInstance
+import android.util.Log
 import fi.lauriari.recipe_app.data.api.RecipeApiRetrofitInstance.api
-import fi.lauriari.recipe_app.data.model.SearchResult
+import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,11 +15,11 @@ class RecipeRepository {
     suspend fun getSomeDataFromApi(
         appIdValue: String,
         appKeyValue: String
-    ): Flow<Response<SearchResult>> {
+    ): Flow<Response<EdamamSearchResult>> {
         return flow {
             val searchResult = api.getSomeDataFromApi(appIdValue, appKeyValue)
             emit(searchResult)
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(context = Dispatchers.IO) // Optional
     }
 
 }

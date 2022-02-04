@@ -1,15 +1,21 @@
 package fi.lauriari.recipe_app.screens.searchresult
 
-import android.util.Log
-import android.widget.Toast
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Button
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import fi.lauriari.recipe_app.data.model.SearchResult
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
+import fi.lauriari.recipe_app.data.model.EdamamSearchResult
+import fi.lauriari.recipe_app.data.model.Hits
+import fi.lauriari.recipe_app.data.model.Recipe
 import fi.lauriari.recipe_app.util.RequestState
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 import retrofit2.Response
@@ -19,28 +25,70 @@ import retrofit2.Response
 fun SearchResultScreen(
     mainViewModel: MainViewModel
 ) {
-    val context = LocalContext.current
-
+    // Observe state changes
     val sampleData by mainViewModel.sampleData.collectAsState()
 
     Column {
-        Text("Hello search result!")
-        Button(onClick = {
-            Toast.makeText(context, mainViewModel.searchTextState.value, Toast.LENGTH_SHORT)
-                .show()
-            Log.d("datalog", "${mainViewModel.sampleData.value}")
-        }) {
-            Text(text = "Show items in logcat")
-        }
-        if (sampleData is RequestState.Success) {
-            if ((sampleData as RequestState.Success<Response<SearchResult>>).data.isSuccessful) {
-                Text(text = "Was success!")
-            } else {
-                Text(text = "Failed!")
+        when (sampleData) {
+            is RequestState.Success -> {
+                val data = sampleData as RequestState.Success<Response<EdamamSearchResult>>
+                if (data.responseValue.isSuccessful) {
+                    if (data.responseValue.body()!!.hits.isNotEmpty()) {
+                        ShowRecipes(data.responseValue.body()!!.hits)
+                    } else {
+                        Text(text = "No hits")
+                    }
+                } else {
+                    Text(text = "Failed!")
+                }
             }
-        } else if (sampleData is RequestState.Loading) {
-            Text(text = "Still loading...")
+            is RequestState.Loading -> {
+                CircularProgressIndicator()
+                Text(text = "Still loading recipes...")
+            }
+            is RequestState.Error -> Text(text = "Error loading recipes")
+            is RequestState.Idle -> {}
         }
     }
+}
 
+@Composable
+fun ShowRecipes(
+    hits: List<Hits>
+) {
+    LazyColumn {
+        items(
+            items = hits,
+            key = { hit ->
+                hit.recipe.uri
+            }
+        ) { hit ->
+            SingleRecipe(hit.recipe)
+        }
+    }
+}
+
+@Composable
+fun SingleRecipe(recipe: Recipe) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth(),
+        elevation = 5.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(all = 10.dp)
+                .fillMaxWidth()
+        ) {
+            Row {
+                Image(
+                    painter = rememberImagePainter(
+                        data = recipe.image
+                    ),
+                    contentDescription = "Image of a recipe",
+                    modifier = Modifier.size(50.dp)
+                )
+            }
+        }
+    }
 }

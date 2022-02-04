@@ -2,7 +2,7 @@ package fi.lauriari.recipe_app.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SearchResult(
+data class EdamamSearchResult(
     @SerializedName("from") val from: Int,
     @SerializedName("to") val to: Int,
     @SerializedName("count") val count: Int,
