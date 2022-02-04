@@ -1,6 +1,8 @@
 package fi.lauriari.recipe_app.screens.searchresult
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
@@ -69,7 +72,10 @@ fun ShowRecipes(
 }
 
 @Composable
-fun SingleRecipe(recipe: Recipe) {
+fun SingleRecipe(
+    recipe: Recipe
+) {
+    val uriHandler = LocalUriHandler.current
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
@@ -77,16 +83,27 @@ fun SingleRecipe(recipe: Recipe) {
     ) {
         Column(
             modifier = Modifier
+                .clickable {
+                    uriHandler.openUri(recipe.url)
+                }
                 .padding(all = 10.dp)
                 .fillMaxWidth()
         ) {
-            Row {
+            Row() {
                 Image(
                     painter = rememberImagePainter(
-                        data = recipe.image
+                        data = recipe.image,
+                        builder = {
+                            crossfade(true)
+                        }
                     ),
                     contentDescription = "Image of a recipe",
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(100.dp)
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(all = 2.dp),
+                    text = recipe.label
                 )
             }
         }
