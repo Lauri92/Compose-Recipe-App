@@ -1,33 +1,39 @@
 package fi.lauriari.recipe_app.components
 
-import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.widget.Toast
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
 import fi.lauriari.recipe_app.R
+import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
+import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
+import fi.lauriari.recipe_app.ui.theme.SearchBarTextColor
+import fi.lauriari.recipe_app.ui.theme.UnfocusedSeachBackgroundColor
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun FoodSearchBar(
-    context: Context,
     mainViewModel: MainViewModel,
     searchTextState: String,
-    focusManager: FocusManager,
-    navigateToSearchResultScreen: () -> Unit
 ) {
     val ai: ApplicationInfo = LocalContext.current.packageManager
         .getApplicationInfo(LocalContext.current.packageName, PackageManager.GET_META_DATA)
@@ -35,13 +41,36 @@ fun FoodSearchBar(
     val appKey = ai.metaData["appKeyValue"]
     val appIdValue = appId.toString()
     val appKeyValue = appKey.toString()
+    val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+
+    var isSearchbarFocused by remember { mutableStateOf(false) }
+    val searchbarBgColor by animateColorAsState(
+        if (isSearchbarFocused)
+            FocusedSearchBackgroundColor else UnfocusedSeachBackgroundColor
+    )
 
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .clip(
+                shape = RoundedCornerShape(3.dp)
+            )
+            .background(searchbarBgColor)
+            .onFocusChanged {
+                isSearchbarFocused = it.isFocused
+            }
+            .fillMaxWidth(),
         value = searchTextState,
-        label = { Text(text = stringResource(id = R.string.search)) },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            cursorColor = Color.Black,
+            focusedBorderColor = BottomNavOrange,
+            unfocusedBorderColor = Color.Transparent
+        ),
         placeholder = {
-            Text(text = stringResource(id = R.string.search_for_food_ph))
+            Text(
+                text = stringResource(id = R.string.search_for_a_recipe_ph),
+                color = SearchBarTextColor
+            )
         },
         onValueChange = { newText ->
             mainViewModel.searchTextState.value = newText
@@ -54,9 +83,8 @@ fun FoodSearchBar(
         trailingIcon = {
             IconButton(
                 onClick = {
-                    mainViewModel.getSomeDataFromApi(appIdValue, appKeyValue)
                     focusManager.clearFocus()
-                    navigateToSearchResultScreen()
+                    Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
                 },
             ) {
                 Icon(
@@ -71,9 +99,8 @@ fun FoodSearchBar(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                mainViewModel.getSomeDataFromApi(appIdValue, appKeyValue)
+                Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
                 focusManager.clearFocus()
-                navigateToSearchResultScreen()
             },
         )
     )

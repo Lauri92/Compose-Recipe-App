@@ -7,17 +7,13 @@ import fi.lauriari.recipe_app.util.Constants.SEARCH_SCREEN
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 fun NavGraphBuilder.searchComposable(
-    navigateToMainMenuScreen: () -> Unit,
     mainViewModel: MainViewModel,
-    navigateToSearchResultScreen: () -> Unit
 ) {
     composable(
         route = SEARCH_SCREEN,
     ) { navBackStackEntry ->
 
         SearchScreen(
-            navigateToMainMenuScreen = navigateToMainMenuScreen,
-            navigateToSearchResultScreen = navigateToSearchResultScreen,
             mainViewModel = mainViewModel
         )
     }
