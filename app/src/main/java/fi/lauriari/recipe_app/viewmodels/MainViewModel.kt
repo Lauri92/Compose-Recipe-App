@@ -19,9 +19,9 @@ class MainViewModel : ViewModel() {
     private val recipeRepository = RecipeRepository()
 
     val searchTextState: MutableState<String> = mutableStateOf("")
-    val cuisineType: MutableState<String> = mutableStateOf("Cuisine Type")
-    val mealType: MutableState<String> = mutableStateOf("Meal Type")
-    val dishType: MutableState<String> = mutableStateOf("Dish Type")
+    val cuisineType: MutableState<String> = mutableStateOf("")
+    val mealType: MutableState<String> = mutableStateOf("")
+    val dishType: MutableState<String> = mutableStateOf("")
 
     private var _sampleData =
         MutableStateFlow<RequestState<Response<EdamamSearchResult>>>(RequestState.Idle)

@@ -19,28 +19,22 @@ fun SearchScreen(
 ) {
 
     val searchTextState: String by mainViewModel.searchTextState
-    val cuisineType: String by mainViewModel.cuisineType
-    val mealType: String by mainViewModel.mealType
-    val dishType: String by mainViewModel.dishType
 
 
     Scaffold(
         bottomBar = {
-            BottomNavBar()
+            BottomNavBar(mainViewModel = mainViewModel)
         },
         content = {
             SearchScreenContent(
                 mainViewModel = mainViewModel,
                 searchTextState = searchTextState,
-                cuisineType = cuisineType,
                 onCuisineTypeSelected = {
                     mainViewModel.cuisineType.value = it
                 },
-                mealType = mealType,
                 onMealTypeSelected = {
                     mainViewModel.mealType.value = it
                 },
-                dishType = dishType,
                 onDishTypeSelected = {
                     mainViewModel.dishType.value = it
                 }

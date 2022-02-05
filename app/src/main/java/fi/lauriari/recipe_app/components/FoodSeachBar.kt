@@ -27,7 +27,7 @@ import fi.lauriari.recipe_app.R
 import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.ui.theme.SearchBarTextColor
-import fi.lauriari.recipe_app.ui.theme.UnfocusedSeachBackgroundColor
+import fi.lauriari.recipe_app.ui.theme.UnfocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
@@ -47,7 +47,7 @@ fun FoodSearchBar(
     var isSearchbarFocused by remember { mutableStateOf(false) }
     val searchbarBgColor by animateColorAsState(
         if (isSearchbarFocused)
-            FocusedSearchBackgroundColor else UnfocusedSeachBackgroundColor
+            FocusedSearchBackgroundColor else UnfocusedSearchBackgroundColor
     )
 
     OutlinedTextField(

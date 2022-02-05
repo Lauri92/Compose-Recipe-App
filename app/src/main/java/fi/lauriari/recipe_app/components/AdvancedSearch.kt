@@ -15,22 +15,23 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fi.lauriari.recipe_app.ui.theme.BottomNavGray
 import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
-import fi.lauriari.recipe_app.ui.theme.UnfocusedSeachBackgroundColor
+import fi.lauriari.recipe_app.ui.theme.UnfocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.util.Constants
 
 @Composable
-fun AdvancedSearch() {
+fun AdvancedSearch(
+    onCuisineTypeSelected: (String) -> Unit,
+    onMealTypeSelected: (String) -> Unit,
+    onDishTypeSelected: (String) -> Unit
+) {
     var advancedSearchExpanded by remember { mutableStateOf(false) }
 
     val angle: Float by animateFloatAsState(
@@ -38,7 +39,7 @@ fun AdvancedSearch() {
     )
     val searchbarBgColor by animateColorAsState(
         if (advancedSearchExpanded)
-            FocusedSearchBackgroundColor else UnfocusedSeachBackgroundColor
+            FocusedSearchBackgroundColor else UnfocusedSearchBackgroundColor
     )
     val searchbarTextColor by animateColorAsState(
         if (advancedSearchExpanded)
@@ -72,9 +73,27 @@ fun AdvancedSearch() {
                     text = "Advanced Search"
                 )
                 if (advancedSearchExpanded) {
-                    AdvancedSearchDropdownItem(Constants.CUISINE_TYPES, "Cuisine", 200.dp)
-                    AdvancedSearchDropdownItem(Constants.MEAL_TYPES, "Meal", 150.dp)
-                    AdvancedSearchDropdownItem(Constants.DISH_TYPES, "Dish", 200.dp)
+                    AdvancedSearchDropdownItem(
+                        onFilterItemSelected = onCuisineTypeSelected,
+                        filterItemArray = Constants.CUISINE_TYPES,
+                        label = "Cuisine",
+                        dropdownItemHeight = 200.dp,
+                        topPadding = 15.dp
+                    )
+                    AdvancedSearchDropdownItem(
+                        onFilterItemSelected = onMealTypeSelected,
+                        filterItemArray = Constants.MEAL_TYPES,
+                        label = "Meal",
+                        dropdownItemHeight = 150.dp,
+                        topPadding = 0.dp
+                    )
+                    AdvancedSearchDropdownItem(
+                        onFilterItemSelected = onDishTypeSelected,
+                        filterItemArray = Constants.DISH_TYPES,
+                        label = "Dish",
+                        dropdownItemHeight = 200.dp,
+                        topPadding = 0.dp
+                    )
                 }
             }
 
