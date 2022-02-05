@@ -1,18 +1,32 @@
 package fi.lauriari.recipe_app.screens.search
 
-import androidx.compose.foundation.Image
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import fi.lauriari.recipe_app.R
+import fi.lauriari.recipe_app.components.AdvancedSearch
 import fi.lauriari.recipe_app.components.FoodSearchBar
+import fi.lauriari.recipe_app.ui.theme.BottomNavGray
+import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
+import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
+import fi.lauriari.recipe_app.ui.theme.UnfocusedSeachBackgroundColor
+import fi.lauriari.recipe_app.util.Constants.CUISINE_TYPES
+import fi.lauriari.recipe_app.util.Constants.DISH_TYPES
+import fi.lauriari.recipe_app.util.Constants.MEAL_TYPES
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -28,63 +42,10 @@ fun SearchScreenContent(
     dishType: String,
     onDishTypeSelected: (String) -> Unit,
 ) {
-/*
-    val context = LocalContext.current
-    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
-            .padding(all = 12.dp)
-    ) {
-        FoodSearchBar(
-            context = context,
-            mainViewModel = mainViewModel,
-            navigateToSearchResultScreen = navigateToSearchResultScreen,
-            searchTextState = searchTextState,
-            focusManager = focusManager
-        )
-        Divider(
-            modifier = Modifier
-                .height(8.dp),
-            color = MaterialTheme.colors.background
-        )
-
-        FilterDropDown(
-            filterArray = CUISINE_TYPES,
-            filterType = cuisineType,
-            onSelectedFilterType = onCuisineTypeSelected
-        )
-
-        Divider(
-            modifier = Modifier
-                .height(8.dp),
-            color = MaterialTheme.colors.background
-        )
-        FilterDropDown(
-            filterArray = MEAL_TYPES,
-            filterType = mealType,
-            onSelectedFilterType = onMealTypeSelected
-        )
-
-        Divider(
-            modifier = Modifier
-                .height(8.dp),
-            color = MaterialTheme.colors.background
-        )
-        FilterDropDown(
-            filterArray = DISH_TYPES,
-            filterType = dishType,
-            onSelectedFilterType = onDishTypeSelected
-        )
-    }
-    */
-
-
-    Column(
-        modifier = Modifier
-            .padding(start = 25.dp, end = 25.dp, top = 25.dp)
+            .padding(start = 25.dp, end = 25.dp, top = 25.dp, bottom = 50.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         FoodSearchBar(
@@ -92,7 +53,8 @@ fun SearchScreenContent(
             searchTextState = searchTextState
         )
 
-
+        AdvancedSearch()
+/*
         Text(
             text = "Find what your heart and stomach desire..",
             fontSize = 36.sp
@@ -104,10 +66,6 @@ fun SearchScreenContent(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize(),
         )
+        */
     }
-}
-
-@Composable
-fun NewSearchBar() {
-
 }

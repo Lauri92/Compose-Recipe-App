@@ -13,7 +13,6 @@ val BottomNavGray = Color(0xFF7A7272)
 val FocusedSearchBackgroundColor = Color(0xFFF2E6D7)
 val SearchBarTextColor = Color(0xFFAAA6A6)
 val UnfocusedSeachBackgroundColor = Color(0xFFF6F6F6)
-val AdvancedSearchTextColor = Color(0xFFCDC6C6)
 
 val bottomNavigationOrange: Color
     @Composable
@@ -22,7 +21,3 @@ val bottomNavigationOrange: Color
 val bottomNavigationGray: Color
     @Composable
     get() = BottomNavGray
-
-val searchBarLightOrange: Color
-    @Composable
-    get() = FocusedSearchBackgroundColor
