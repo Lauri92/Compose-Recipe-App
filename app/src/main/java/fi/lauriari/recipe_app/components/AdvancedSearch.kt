@@ -5,17 +5,20 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import fi.lauriari.recipe_app.ui.theme.BottomNavGray
 import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
@@ -95,33 +98,8 @@ fun AdvancedSearch(
                         dropdownItemHeight = 200.dp,
                         topPadding = 0.dp
                     )
-                    Column(
-                        modifier = Modifier
-                            .padding(top = 10.dp, bottom = 5.dp)
-                    ) {
-                        if (mainViewModel.cuisineType.value != "") {
-
-                            SelectedFilterItem(
-                                selectedFilterValue = mainViewModel.cuisineType.value,
-                                onResetType = onResetCuisineType
-                            )
-                        }
-                        if (mainViewModel.mealType.value != "") {
-                            SelectedFilterItem(
-                                selectedFilterValue = mainViewModel.mealType.value,
-                                onResetType = onResetMealType
-                            )
-                        }
-                        if (mainViewModel.dishType.value != "") {
-                            SelectedFilterItem(
-                                selectedFilterValue = mainViewModel.dishType.value,
-                                onResetType = onResetDishType
-                            )
-                        }
-                    }
                 }
             }
-
             IconButton(
                 modifier = Modifier
                     .rotate(degrees = angle),
@@ -133,6 +111,35 @@ fun AdvancedSearch(
                 )
             }
         }
+    }
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp, bottom = 5.dp)
+    ) {
+
+        val list = mutableListOf<Pair<String, () -> Unit>>()
+
+        if (mainViewModel.cuisineType.value != "") {
+            list.add(Pair(mainViewModel.cuisineType.value, onResetCuisineType))
+        }
+        if (mainViewModel.mealType.value != "") {
+            list.add(Pair(mainViewModel.mealType.value, onResetMealType))
+        }
+        if (mainViewModel.dishType.value != "") {
+            list.add(Pair(mainViewModel.dishType.value, onResetDishType))
+        }
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            items(items = list) { item ->
+                SelectedFilterItem(selectedFilterValue = item.first) {
+                    item.second()
+                }
+            }
+        }
+
     }
 }
 
@@ -160,7 +167,7 @@ fun SelectedFilterItem(
         Text(
             modifier = Modifier
                 .padding(start = 20.dp),
-            text = selectedFilterValue
+            text = selectedFilterValue,
         )
         IconButton(
             onClick = { onResetType() })

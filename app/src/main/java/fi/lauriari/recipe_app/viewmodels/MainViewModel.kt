@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.repository.RecipeRepository
-import fi.lauriari.recipe_app.util.RequestState
+import fi.lauriari.recipe_app.util.APIRequestState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -24,20 +24,20 @@ class MainViewModel : ViewModel() {
     val dishType: MutableState<String> = mutableStateOf("")
 
     private var _sampleData =
-        MutableStateFlow<RequestState<Response<EdamamSearchResult>>>(RequestState.Idle)
-    val sampleData: StateFlow<RequestState<Response<EdamamSearchResult>>> = _sampleData
+        MutableStateFlow<APIRequestState<Response<EdamamSearchResult>>>(APIRequestState.Idle)
+    val sampleData: StateFlow<APIRequestState<Response<EdamamSearchResult>>> = _sampleData
 
     fun getSomeDataFromApi(appIdValue: String, appKeyValue: String) {
-        _sampleData.value = RequestState.Loading
+        _sampleData.value = APIRequestState.Loading
         try {
             viewModelScope.launch {
                 recipeRepository.getSomeDataFromApi(appIdValue, appKeyValue).collect {
                     Log.d("flowtry", it.body().toString())
-                    _sampleData.value = RequestState.Success(it)
+                    _sampleData.value = APIRequestState.Success(it)
                 }
             }
         } catch (e: Exception) {
-            _sampleData.value = RequestState.Error(e)
+            _sampleData.value = APIRequestState.Error(e)
         }
     }
 

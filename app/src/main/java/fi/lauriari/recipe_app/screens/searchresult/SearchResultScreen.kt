@@ -1,6 +1,5 @@
 package fi.lauriari.recipe_app.screens.searchresult
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,7 +18,7 @@ import coil.compose.rememberImagePainter
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
 import fi.lauriari.recipe_app.data.model.Recipe
-import fi.lauriari.recipe_app.util.RequestState
+import fi.lauriari.recipe_app.util.APIRequestState
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 import retrofit2.Response
 
@@ -33,8 +32,8 @@ fun SearchResultScreen(
 
     Column {
         when (sampleData) {
-            is RequestState.Success -> {
-                val data = sampleData as RequestState.Success<Response<EdamamSearchResult>>
+            is APIRequestState.Success -> {
+                val data = sampleData as APIRequestState.Success<Response<EdamamSearchResult>>
                 if (data.responseValue.isSuccessful) {
                     if (data.responseValue.body()!!.hits.isNotEmpty()) {
                         ShowRecipes(data.responseValue.body()!!.hits)
@@ -45,12 +44,12 @@ fun SearchResultScreen(
                     Text(text = "Failed!")
                 }
             }
-            is RequestState.Loading -> {
+            is APIRequestState.Loading -> {
                 CircularProgressIndicator()
                 Text(text = "Still loading recipes...")
             }
-            is RequestState.Error -> Text(text = "Error loading recipes")
-            is RequestState.Idle -> {}
+            is APIRequestState.Error -> Text(text = "Error loading recipes")
+            is APIRequestState.Idle -> {}
         }
     }
 }
