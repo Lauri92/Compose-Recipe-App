@@ -3,18 +3,14 @@ package fi.lauriari.recipe_app.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -25,12 +21,17 @@ import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.ui.theme.UnfocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.util.Constants
+import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun AdvancedSearch(
+    mainViewModel: MainViewModel,
     onCuisineTypeSelected: (String) -> Unit,
+    onResetCuisineType: () -> Unit,
     onMealTypeSelected: (String) -> Unit,
-    onDishTypeSelected: (String) -> Unit
+    onResetMealType: () -> Unit,
+    onDishTypeSelected: (String) -> Unit,
+    onResetDishType: () -> Unit,
 ) {
     var advancedSearchExpanded by remember { mutableStateOf(false) }
 
@@ -94,6 +95,30 @@ fun AdvancedSearch(
                         dropdownItemHeight = 200.dp,
                         topPadding = 0.dp
                     )
+                    Column(
+                        modifier = Modifier
+                            .padding(top = 10.dp, bottom = 5.dp)
+                    ) {
+                        if (mainViewModel.cuisineType.value != "") {
+
+                            SelectedFilterItem(
+                                selectedFilterValue = mainViewModel.cuisineType.value,
+                                onResetType = onResetCuisineType
+                            )
+                        }
+                        if (mainViewModel.mealType.value != "") {
+                            SelectedFilterItem(
+                                selectedFilterValue = mainViewModel.mealType.value,
+                                onResetType = onResetMealType
+                            )
+                        }
+                        if (mainViewModel.dishType.value != "") {
+                            SelectedFilterItem(
+                                selectedFilterValue = mainViewModel.dishType.value,
+                                onResetType = onResetDishType
+                            )
+                        }
+                    }
                 }
             }
 
@@ -107,6 +132,45 @@ fun AdvancedSearch(
                     contentDescription = "Expand or minimize arrow"
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun SelectedFilterItem(
+    selectedFilterValue: String,
+    onResetType: () -> Unit
+) {
+    OutlinedButton(
+        modifier = Modifier
+            .padding(top = 5.dp)
+            .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
+        onClick = {},
+        contentPadding = PaddingValues(),
+        border = BorderStroke(
+            width = 1.dp,
+            color = Color.White
+        ),
+        shape = RoundedCornerShape(50),
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = BottomNavOrange,
+            contentColor = Color.White
+        ),
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(start = 20.dp),
+            text = selectedFilterValue
+        )
+        IconButton(
+            onClick = { onResetType() })
+        {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.Filled.Close,
+                contentDescription = "Expand or minimize arrow",
+                tint = Color.White
+            )
         }
     }
 }

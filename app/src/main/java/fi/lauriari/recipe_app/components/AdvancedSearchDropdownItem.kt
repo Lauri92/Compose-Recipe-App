@@ -19,6 +19,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,6 +58,7 @@ fun AdvancedSearchDropdownItem(
                 Text(
                     modifier = Modifier.padding(15.dp),
                     text = label,
+                    fontWeight = FontWeight.Bold
                 )
                 if (subMenuExpanded) {
                     LazyColumn(

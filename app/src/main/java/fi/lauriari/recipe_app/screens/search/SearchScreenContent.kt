@@ -18,8 +18,11 @@ fun SearchScreenContent(
     mainViewModel: MainViewModel,
     searchTextState: String,
     onCuisineTypeSelected: (String) -> Unit,
+    onResetCuisineType: () -> Unit,
     onMealTypeSelected: (String) -> Unit,
+    onResetMealType: () -> Unit,
     onDishTypeSelected: (String) -> Unit,
+    onResetDishType: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     Column(
@@ -39,9 +42,13 @@ fun SearchScreenContent(
         )
 
         AdvancedSearch(
+            mainViewModel = mainViewModel,
             onCuisineTypeSelected = onCuisineTypeSelected,
+            onResetCuisineType = onResetCuisineType,
             onMealTypeSelected = onMealTypeSelected,
-            onDishTypeSelected = onDishTypeSelected
+            onResetMealType = onResetMealType,
+            onDishTypeSelected = onDishTypeSelected,
+            onResetDishType = onResetDishType
         )
 /*
         Text(
