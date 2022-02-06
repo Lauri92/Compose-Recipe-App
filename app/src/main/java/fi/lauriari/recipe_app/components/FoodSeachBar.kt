@@ -84,6 +84,10 @@ fun FoodSearchBar(
             IconButton(
                 onClick = {
                     focusManager.clearFocus()
+                    mainViewModel.getSomeDataFromApi(
+                        appIdValue = appIdValue,
+                        appKeyValue = appKeyValue
+                    )
                     Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
                 },
             ) {
@@ -99,8 +103,12 @@ fun FoodSearchBar(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
                 focusManager.clearFocus()
+                mainViewModel.getSomeDataFromApi(
+                    appIdValue = appIdValue,
+                    appKeyValue = appKeyValue
+                )
+                Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
             },
         )
     )

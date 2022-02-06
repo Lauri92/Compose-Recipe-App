@@ -28,13 +28,9 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun AdvancedSearch(
-    mainViewModel: MainViewModel,
     onCuisineTypeSelected: (String) -> Unit,
-    onResetCuisineType: () -> Unit,
     onMealTypeSelected: (String) -> Unit,
-    onResetMealType: () -> Unit,
     onDishTypeSelected: (String) -> Unit,
-    onResetDishType: () -> Unit,
 ) {
     var advancedSearchExpanded by remember { mutableStateOf(false) }
 
@@ -110,74 +106,6 @@ fun AdvancedSearch(
                     contentDescription = "Expand or minimize arrow"
                 )
             }
-        }
-    }
-    Column(
-        modifier = Modifier
-            .padding(top = 10.dp, bottom = 5.dp)
-    ) {
-
-        val list = mutableListOf<Pair<String, () -> Unit>>()
-
-        if (mainViewModel.cuisineType.value != "") {
-            list.add(Pair(mainViewModel.cuisineType.value, onResetCuisineType))
-        }
-        if (mainViewModel.mealType.value != "") {
-            list.add(Pair(mainViewModel.mealType.value, onResetMealType))
-        }
-        if (mainViewModel.dishType.value != "") {
-            list.add(Pair(mainViewModel.dishType.value, onResetDishType))
-        }
-
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            items(items = list) { item ->
-                SelectedFilterItem(selectedFilterValue = item.first) {
-                    item.second()
-                }
-            }
-        }
-
-    }
-}
-
-@Composable
-fun SelectedFilterItem(
-    selectedFilterValue: String,
-    onResetType: () -> Unit
-) {
-    OutlinedButton(
-        modifier = Modifier
-            .padding(top = 5.dp)
-            .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
-        onClick = {},
-        contentPadding = PaddingValues(),
-        border = BorderStroke(
-            width = 1.dp,
-            color = Color.White
-        ),
-        shape = RoundedCornerShape(50),
-        colors = ButtonDefaults.outlinedButtonColors(
-            backgroundColor = BottomNavOrange,
-            contentColor = Color.White
-        ),
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(start = 20.dp),
-            text = selectedFilterValue,
-        )
-        IconButton(
-            onClick = { onResetType() })
-        {
-            Icon(
-                modifier = Modifier.size(20.dp),
-                imageVector = Icons.Filled.Close,
-                contentDescription = "Expand or minimize arrow",
-                tint = Color.White
-            )
         }
     }
 }

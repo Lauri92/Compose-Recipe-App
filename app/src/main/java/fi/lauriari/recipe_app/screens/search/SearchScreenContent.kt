@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import fi.lauriari.recipe_app.components.AdvancedSearch
 import fi.lauriari.recipe_app.components.FoodSearchBar
+import fi.lauriari.recipe_app.components.SelectedFiltersRow
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -42,14 +43,18 @@ fun SearchScreenContent(
         )
 
         AdvancedSearch(
-            mainViewModel = mainViewModel,
             onCuisineTypeSelected = onCuisineTypeSelected,
-            onResetCuisineType = onResetCuisineType,
             onMealTypeSelected = onMealTypeSelected,
-            onResetMealType = onResetMealType,
             onDishTypeSelected = onDishTypeSelected,
+        )
+        SelectedFiltersRow(
+            mainViewModel = mainViewModel,
+            onResetCuisineType = onResetCuisineType,
+            onResetMealType = onResetMealType,
             onResetDishType = onResetDishType
         )
+
+
 /*
         Text(
             text = "Find what your heart and stomach desire..",
