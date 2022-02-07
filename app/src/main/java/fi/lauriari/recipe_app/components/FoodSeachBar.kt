@@ -86,7 +86,8 @@ fun FoodSearchBar(
                     focusManager.clearFocus()
                     mainViewModel.getSomeDataFromApi(
                         appIdValue = appIdValue,
-                        appKeyValue = appKeyValue
+                        appKeyValue = appKeyValue,
+                        searchQuery = searchTextState
                     )
                     Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
                 },
@@ -106,7 +107,9 @@ fun FoodSearchBar(
                 focusManager.clearFocus()
                 mainViewModel.getSomeDataFromApi(
                     appIdValue = appIdValue,
-                    appKeyValue = appKeyValue
+                    appKeyValue = appKeyValue,
+                    searchQuery = searchTextState
+
                 )
                 Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
             },

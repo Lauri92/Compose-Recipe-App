@@ -7,11 +7,11 @@ import retrofit2.http.Query
 
 interface EdamamAPI {
 
-    @GET("v2?type=public&q=nuggets")
+    @GET("v2?type=public")
     suspend fun getSomeDataFromApi(
         @Query("app_id") appIdValue: String,
         @Query("app_key") appKeyValue: String,
-        @Query("dishType") dishType: String = "Sandwiches",
+        @Query("q") searchQuery: String,
     ): Response<EdamamSearchResult>
 
 

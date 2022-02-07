@@ -27,11 +27,15 @@ class MainViewModel : ViewModel() {
         MutableStateFlow<APIRequestState<Response<EdamamSearchResult>>>(APIRequestState.Idle)
     val sampleData: StateFlow<APIRequestState<Response<EdamamSearchResult>>> = _sampleData
 
-    fun getSomeDataFromApi(appIdValue: String, appKeyValue: String) {
+    fun getSomeDataFromApi(
+        appIdValue: String,
+        appKeyValue: String,
+        searchQuery: String
+    ) {
         _sampleData.value = APIRequestState.Loading
         try {
             viewModelScope.launch {
-                recipeRepository.getSomeDataFromApi(appIdValue, appKeyValue).collect {
+                recipeRepository.getSomeDataFromApi(appIdValue, appKeyValue, searchQuery).collect {
                     Log.d("flowtry", it.body().toString())
                     _sampleData.value = APIRequestState.Success(it)
                 }

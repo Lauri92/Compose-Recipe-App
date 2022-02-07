@@ -14,10 +14,11 @@ class RecipeRepository {
 
     suspend fun getSomeDataFromApi(
         appIdValue: String,
-        appKeyValue: String
+        appKeyValue: String,
+        searchQuery: String
     ): Flow<Response<EdamamSearchResult>> {
         return flow {
-            val searchResult = api.getSomeDataFromApi(appIdValue, appKeyValue)
+            val searchResult = api.getSomeDataFromApi(appIdValue, appKeyValue, searchQuery)
             emit(searchResult)
         }.flowOn(context = Dispatchers.IO) // Optional
     }

@@ -44,7 +44,7 @@ data class Recipe(
     @SerializedName("ingredients") val ingredients: List<Ingredients>,
     @SerializedName("calories") val calories: Double,
     @SerializedName("totalWeight") val totalWeight: Double,
-    @SerializedName("totalTime") val totalTime: Int,
+    @SerializedName("totalTime") val totalTime: Double,
     @SerializedName("cuisineType") val cuisineType: List<String>,
     @SerializedName("mealType") val mealType: List<String>,
     @SerializedName("dishType") val dishType: List<String>
