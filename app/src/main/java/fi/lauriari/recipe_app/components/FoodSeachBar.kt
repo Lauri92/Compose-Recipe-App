@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -52,6 +53,7 @@ fun FoodSearchBar(
 
     OutlinedTextField(
         modifier = Modifier
+            .padding(start = 25.dp, end = 25.dp, top = 25.dp, bottom = 5.dp)
             .clip(
                 shape = RoundedCornerShape(3.dp)
             )
@@ -89,7 +91,6 @@ fun FoodSearchBar(
                         appKeyValue = appKeyValue,
                         searchQuery = searchTextState
                     )
-                    Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
                 },
             ) {
                 Icon(
@@ -109,9 +110,7 @@ fun FoodSearchBar(
                     appIdValue = appIdValue,
                     appKeyValue = appKeyValue,
                     searchQuery = searchTextState
-
                 )
-                Toast.makeText(context, searchTextState, Toast.LENGTH_SHORT).show()
             },
         )
     )

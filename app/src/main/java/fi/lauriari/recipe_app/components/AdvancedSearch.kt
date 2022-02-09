@@ -48,7 +48,7 @@ fun AdvancedSearch(
 
     Column(
         modifier = Modifier
-            .padding(vertical = 5.dp)
+            .padding(start = 25.dp, end = 25.dp, bottom = 5.dp)
             .border(2.dp, if (advancedSearchExpanded) BottomNavOrange else Color.Transparent)
             .verticalScroll(rememberScrollState())
             .background(searchbarBgColor)
