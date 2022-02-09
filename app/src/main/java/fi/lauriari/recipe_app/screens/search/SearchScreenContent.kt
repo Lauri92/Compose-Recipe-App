@@ -1,10 +1,8 @@
 package fi.lauriari.recipe_app.screens.search
 
-import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -14,15 +12,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
@@ -53,7 +50,7 @@ fun SearchScreenContent(
     onResetDishType: () -> Unit
 ) {
 
-    val sampleData by mainViewModel.sampleData.collectAsState()
+    val searchData by mainViewModel.searchData.collectAsState()
 
     val focusManager = LocalFocusManager.current
     Column(
@@ -84,18 +81,18 @@ fun SearchScreenContent(
             onResetDishType = onResetDishType
         )
 
-        BottomContent(sampleData)
+        BottomContent(searchData)
 
     }
 }
 
 @Composable
-fun BottomContent(sampleData: APIRequestState<Response<EdamamSearchResult>>) {
-    when (sampleData) {
+fun BottomContent(searchData: APIRequestState<Response<EdamamSearchResult>>) {
+    when (searchData) {
         is APIRequestState.Success -> {
-            if (sampleData.responseValue.isSuccessful) {
-                if (sampleData.responseValue.body()!!.hits.isNotEmpty()) {
-                    ShowRecipes(sampleData.responseValue.body()!!.hits)
+            if (searchData.responseValue.isSuccessful) {
+                if (searchData.responseValue.body()!!.hits.isNotEmpty()) {
+                    ShowRecipes(searchData.responseValue.body()!!.hits)
                 } else {
                     Text(text = "No hits")
                 }
@@ -135,8 +132,10 @@ fun BottomContent(sampleData: APIRequestState<Response<EdamamSearchResult>>) {
 fun ShowRecipes(
     hits: List<Hits>
 ) {
-    val listState = rememberLazyListState()
     val context = LocalContext.current
+    val density = LocalDensity.current
+
+    val listState = rememberLazyListState()
 
     val showButton by remember {
         derivedStateOf {
@@ -144,15 +143,16 @@ fun ShowRecipes(
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .padding(bottom = 50.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        contentAlignment = Alignment.BottomCenter
 
     ) {
 
         LazyVerticalGrid(
-            modifier = Modifier.weight(10f),
+            //modifier = Modifier.weight(10f),
             state = listState,
             cells = GridCells.Adaptive(minSize = 160.dp),
             contentPadding = PaddingValues(
@@ -168,13 +168,16 @@ fun ShowRecipes(
                 SingleRecipe(hit.recipe)
             }
         }
-        AnimatedVisibility(visible = showButton) {
-            Column(
+        AnimatedVisibility(
+            visible = showButton,
+            enter = slideInVertically(),
+            exit = slideOutVertically()
+        ) {
+            Box(
                 Modifier
                     .padding(bottom = 6.dp)
                     .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            contentAlignment = Alignment.BottomCenter
             ) {
                 Button(
                     onClick = { /*TODO*/ }

@@ -23,25 +23,25 @@ class MainViewModel : ViewModel() {
     val mealType: MutableState<String> = mutableStateOf("")
     val dishType: MutableState<String> = mutableStateOf("")
 
-    private var _sampleData =
+    private var _searchData =
         MutableStateFlow<APIRequestState<Response<EdamamSearchResult>>>(APIRequestState.Idle)
-    val sampleData: StateFlow<APIRequestState<Response<EdamamSearchResult>>> = _sampleData
+    val searchData: StateFlow<APIRequestState<Response<EdamamSearchResult>>> = _searchData
 
     fun getSomeDataFromApi(
         appIdValue: String,
         appKeyValue: String,
         searchQuery: String
     ) {
-        _sampleData.value = APIRequestState.Loading
+        _searchData.value = APIRequestState.Loading
         try {
             viewModelScope.launch {
                 recipeRepository.getSomeDataFromApi(appIdValue, appKeyValue, searchQuery).collect {
                     Log.d("flowtry", it.body().toString())
-                    _sampleData.value = APIRequestState.Success(it)
+                    _searchData.value = APIRequestState.Success(it)
                 }
             }
         } catch (e: Exception) {
-            _sampleData.value = APIRequestState.Error(e)
+            _searchData.value = APIRequestState.Error(e)
         }
     }
 

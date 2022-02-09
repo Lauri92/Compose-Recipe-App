@@ -12,7 +12,14 @@ data class EdamamSearchResult(
 
 data class _links(
 
-    @SerializedName("self") val self: Self
+    @SerializedName("self") val self: Self,
+    @SerializedName("next") val next: Next
+)
+
+data class Next(
+
+    @SerializedName("href") val href: String,
+    @SerializedName("title") val title: String
 )
 
 data class Self(
@@ -78,14 +85,14 @@ data class THUMBNAIL(
     @SerializedName("height") val height: Int
 )
 
-data class Ingredients (
+data class Ingredients(
 
-    @SerializedName("text") val text : String,
-    @SerializedName("quantity") val quantity : Double,
-    @SerializedName("measure") val measure : String,
-    @SerializedName("food") val food : String,
-    @SerializedName("weight") val weight : Double,
-    @SerializedName("foodCategory") val foodCategory : String,
-    @SerializedName("foodId") val foodId : String,
-    @SerializedName("image") val image : String
+    @SerializedName("text") val text: String,
+    @SerializedName("quantity") val quantity: Double,
+    @SerializedName("measure") val measure: String,
+    @SerializedName("food") val food: String,
+    @SerializedName("weight") val weight: Double,
+    @SerializedName("foodCategory") val foodCategory: String,
+    @SerializedName("foodId") val foodId: String,
+    @SerializedName("image") val image: String
 )
