@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import retrofit2.Response
+import java.lang.Error
 
 class MainViewModel : ViewModel() {
 
@@ -22,12 +22,14 @@ class MainViewModel : ViewModel() {
     val cuisineType: MutableState<String> = mutableStateOf("")
     val mealType: MutableState<String> = mutableStateOf("")
     val dishType: MutableState<String> = mutableStateOf("")
+    private var nextpageSearchQuery: String = ""
+    private var nextpageContQuery: String = ""
 
     private var _searchData =
-        MutableStateFlow<APIRequestState<Response<EdamamSearchResult>>>(APIRequestState.Idle)
-    val searchData: StateFlow<APIRequestState<Response<EdamamSearchResult>>> = _searchData
+        MutableStateFlow<APIRequestState<EdamamSearchResult>>(APIRequestState.Idle)
+    val searchData: StateFlow<APIRequestState<EdamamSearchResult>> = _searchData
 
-    fun getSomeDataFromApi(
+    fun getDataByQuery(
         appIdValue: String,
         appKeyValue: String,
         searchQuery: String
@@ -35,13 +37,67 @@ class MainViewModel : ViewModel() {
         _searchData.value = APIRequestState.Loading
         try {
             viewModelScope.launch {
-                recipeRepository.getSomeDataFromApi(appIdValue, appKeyValue, searchQuery).collect {
-                    Log.d("flowtry", it.body().toString())
-                    _searchData.value = APIRequestState.Success(it)
+                recipeRepository.getDataByQuery(
+                    appIdValue = appIdValue,
+                    appKeyValue = appKeyValue,
+                    searchQuery = searchQuery
+                ).collect { response ->
+                    if (response.isSuccessful) {
+                        if (response.body()!!.hits.isNotEmpty()) {
+                            nextpageSearchQuery = searchQuery
+                            nextpageContQuery = response.body()!!._links.next.href
+                                .substringAfter("_cont=")
+                                .substringBefore('%')
+                            _searchData.value = APIRequestState.Success(response.body()!!)
+                        } else {
+                            _searchData.value = APIRequestState.EmptyList
+                        }
+                    }
                 }
             }
         } catch (e: Exception) {
             _searchData.value = APIRequestState.Error(e)
+        }
+    }
+
+    private var _nextpageSearchData =
+        MutableStateFlow<APIRequestState<EdamamSearchResult>>(APIRequestState.Idle)
+    val nextpageSearchData: StateFlow<APIRequestState<EdamamSearchResult>> =
+        _nextpageSearchData
+
+    fun getNextPageRecipes(
+        appIdValue: String,
+        appKeyValue: String,
+    ) {
+        _nextpageSearchData.value = APIRequestState.Loading
+        try {
+            viewModelScope.launch {
+                recipeRepository.getMoreRecipesFromApi(
+                    appIdValue = appIdValue,
+                    appKeyValue = appKeyValue,
+                    searchQuery = nextpageSearchQuery,
+                    nextpageContQuery = nextpageContQuery
+                ).collect { response ->
+                    Log.d("valuetest", response.toString())
+                    if (response.isSuccessful) {
+                        if (response.body()!!.hits.isNotEmpty()) {
+                            Log.d("nextpagedata", "${response.body()!!._links.next}")
+                            nextpageContQuery = response.body()!!._links.next.href
+                                .substringAfter("_cont=")
+                                .substringBefore('%')
+                            Log.d("nextpagedata", nextpageContQuery)
+                            _nextpageSearchData.value =
+                                APIRequestState.Success(response.body()!!)
+                        } else {
+                            _nextpageSearchData.value = APIRequestState.EmptyList
+                        }
+                    } else {
+                        _nextpageSearchData.value = APIRequestState.BadResponse
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            _nextpageSearchData.value = APIRequestState.Error(e)
         }
     }
 

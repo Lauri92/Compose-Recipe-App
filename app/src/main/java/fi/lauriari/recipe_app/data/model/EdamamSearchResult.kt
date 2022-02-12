@@ -43,7 +43,7 @@ data class Recipe(
     @SerializedName("source") val source: String,
     @SerializedName("url") val url: String,
     @SerializedName("shareAs") val shareAs: String,
-    @SerializedName("yield") val yield: Int,
+    @SerializedName("yield") val yield: Double,
     @SerializedName("dietLabels") val dietLabels: List<String>,
     @SerializedName("healthLabels") val healthLabels: List<String>,
     @SerializedName("cautions") val cautions: List<String>,

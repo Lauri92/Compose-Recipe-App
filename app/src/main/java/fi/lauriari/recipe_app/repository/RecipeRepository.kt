@@ -12,15 +12,35 @@ import retrofit2.Response
 
 class RecipeRepository {
 
-    suspend fun getSomeDataFromApi(
+    suspend fun getDataByQuery(
         appIdValue: String,
         appKeyValue: String,
         searchQuery: String
     ): Flow<Response<EdamamSearchResult>> {
         return flow {
-            val searchResult = api.getSomeDataFromApi(appIdValue, appKeyValue, searchQuery)
+            val searchResult = api.getDataByQuery(appIdValue, appKeyValue, searchQuery)
             emit(searchResult)
         }.flowOn(context = Dispatchers.IO) // Optional
     }
+
+    suspend fun getMoreRecipesFromApi(
+        appIdValue: String,
+        appKeyValue: String,
+        searchQuery: String,
+        nextpageContQuery: String,
+    ): Flow<Response<EdamamSearchResult>> {
+        Log.d("nextpagedatarepotest", "$appIdValue, $appKeyValue, $searchQuery, $nextpageContQuery")
+        return flow {
+            val searchResult =
+                api.getMoreRecipes(
+                    appIdValue = appIdValue,
+                    appKeyValue = appKeyValue,
+                    searchQuery = searchQuery,
+                    nextpageContQuery = nextpageContQuery
+                )
+            emit(searchResult)
+        }.flowOn(context = Dispatchers.IO) // Optional
+    }
+
 
 }

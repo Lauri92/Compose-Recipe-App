@@ -2,7 +2,6 @@ package fi.lauriari.recipe_app.components
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -86,7 +85,7 @@ fun FoodSearchBar(
             IconButton(
                 onClick = {
                     focusManager.clearFocus()
-                    mainViewModel.getSomeDataFromApi(
+                    mainViewModel.getDataByQuery(
                         appIdValue = appIdValue,
                         appKeyValue = appKeyValue,
                         searchQuery = searchTextState
@@ -106,7 +105,7 @@ fun FoodSearchBar(
         keyboardActions = KeyboardActions(
             onSearch = {
                 focusManager.clearFocus()
-                mainViewModel.getSomeDataFromApi(
+                mainViewModel.getDataByQuery(
                     appIdValue = appIdValue,
                     appKeyValue = appKeyValue,
                     searchQuery = searchTextState

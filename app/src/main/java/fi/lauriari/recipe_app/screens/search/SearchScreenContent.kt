@@ -1,15 +1,16 @@
 package fi.lauriari.recipe_app.screens.search
 
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -35,7 +36,6 @@ import fi.lauriari.recipe_app.data.model.Recipe
 import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.util.APIRequestState
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
-import retrofit2.Response
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -55,7 +55,6 @@ fun SearchScreenContent(
     val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
-            //.padding(start = 25.dp, end = 25.dp, top = 25.dp, bottom = 50.dp)
             .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -81,24 +80,29 @@ fun SearchScreenContent(
             onResetDishType = onResetDishType
         )
 
-        BottomContent(searchData)
+        BottomContent(searchData, mainViewModel)
 
     }
 }
 
 @Composable
-fun BottomContent(searchData: APIRequestState<Response<EdamamSearchResult>>) {
+fun BottomContent(
+    searchData: APIRequestState<EdamamSearchResult>,
+    mainViewModel: MainViewModel
+) {
+
+    val context = LocalContext.current
     when (searchData) {
         is APIRequestState.Success -> {
-            if (searchData.responseValue.isSuccessful) {
-                if (searchData.responseValue.body()!!.hits.isNotEmpty()) {
-                    ShowRecipes(searchData.responseValue.body()!!.hits)
-                } else {
-                    Text(text = "No hits")
-                }
-            } else {
-                Text(text = "Failed!")
+            if (searchData.responseValue.hits.isNotEmpty()) {
+                ShowRecipes(
+                    searchData.responseValue.hits,
+                    mainViewModel
+                )
             }
+        }
+        is APIRequestState.EmptyList -> {
+            Text(text = "No hits")
         }
         is APIRequestState.Loading -> {
             Box(
@@ -115,7 +119,9 @@ fun BottomContent(searchData: APIRequestState<Response<EdamamSearchResult>>) {
                 )
             }
         }
-        is APIRequestState.Error -> Text(text = "Error loading recipes")
+        is APIRequestState.Error -> {
+            Text(text = "Error loading recipes")
+        }
         is APIRequestState.Idle -> {
             Text(
                 modifier = Modifier
@@ -124,22 +130,62 @@ fun BottomContent(searchData: APIRequestState<Response<EdamamSearchResult>>) {
                 fontSize = 36.sp
             )
         }
+        is APIRequestState.BadResponse -> {
+            Toast.makeText(context, "Error fetching recipes", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, androidx.compose.animation.ExperimentalAnimationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun ShowRecipes(
-    hits: List<Hits>
+    hits: List<Hits>,
+    mainViewModel: MainViewModel
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
+
+    val ai: ApplicationInfo = LocalContext.current.packageManager
+        .getApplicationInfo(LocalContext.current.packageName, PackageManager.GET_META_DATA)
+    val appId = ai.metaData["appIdValue"]
+    val appKey = ai.metaData["appKeyValue"]
+    val appIdValue = appId.toString()
+    val appKeyValue = appKey.toString()
+
+    val nextpageSearchData by mainViewModel.nextpageSearchData.collectAsState()
 
     val listState = rememberLazyListState()
 
     val showButton by remember {
         derivedStateOf {
             listState.firstVisibleItemIndex > 6
+        }
+    }
+
+    val recipeList by remember { mutableStateOf(hits.toMutableList()) }
+
+    when (nextpageSearchData) {
+        is APIRequestState.Success -> {
+            if ((nextpageSearchData as APIRequestState.Success<EdamamSearchResult>).responseValue.hits.isNotEmpty()) {
+                Log.d(
+                    "nextpageData", "success response")
+                recipeList.addAll((nextpageSearchData as APIRequestState.Success<EdamamSearchResult>).responseValue.hits)
+            }
+        }
+        is APIRequestState.EmptyList -> {
+            Toast.makeText(context, "EMPTY LIST STATE", Toast.LENGTH_SHORT).show()
+        }
+        is APIRequestState.Error -> {
+            Toast.makeText(context, "ERROR state", Toast.LENGTH_SHORT).show()
+        }
+        is APIRequestState.BadResponse -> {
+            Toast.makeText(context, "BAD RESPONSE state", Toast.LENGTH_SHORT).show()
+        }
+        is APIRequestState.Idle -> {
+
+        }
+        is APIRequestState.Loading -> {
+
         }
     }
 
@@ -163,7 +209,7 @@ fun ShowRecipes(
             ),
         ) {
             items(
-                items = hits,
+                items = recipeList,
             ) { hit ->
                 SingleRecipe(hit.recipe)
             }
@@ -177,12 +223,17 @@ fun ShowRecipes(
                 Modifier
                     .padding(bottom = 6.dp)
                     .fillMaxWidth(),
-            contentAlignment = Alignment.BottomCenter
+                contentAlignment = Alignment.BottomCenter
             ) {
                 Button(
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        mainViewModel.getNextPageRecipes(
+                            appIdValue = appIdValue,
+                            appKeyValue = appKeyValue,
+                        )
+                    }
                 ) {
-                    Text("Do something!")
+                    Text("Load more recipes")
                 }
             }
         }
