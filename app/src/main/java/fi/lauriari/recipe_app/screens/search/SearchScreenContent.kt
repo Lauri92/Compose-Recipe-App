@@ -20,7 +20,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
@@ -50,6 +49,13 @@ fun SearchScreenContent(
     onResetDishType: () -> Unit
 ) {
 
+    val ai: ApplicationInfo = LocalContext.current.packageManager
+        .getApplicationInfo(LocalContext.current.packageName, PackageManager.GET_META_DATA)
+    val appId = ai.metaData["appIdValue"]
+    val appKey = ai.metaData["appKeyValue"]
+    val appIdValue = appId.toString()
+    val appKeyValue = appKey.toString()
+
     val searchData by mainViewModel.searchData.collectAsState()
 
     val focusManager = LocalFocusManager.current
@@ -65,7 +71,9 @@ fun SearchScreenContent(
 
         FoodSearchBar(
             mainViewModel = mainViewModel,
-            searchTextState = searchTextState
+            searchTextState = searchTextState,
+            appIdValue = appIdValue,
+            appKeyValue = appKeyValue
         )
 
         AdvancedSearch(
@@ -80,7 +88,12 @@ fun SearchScreenContent(
             onResetDishType = onResetDishType
         )
 
-        BottomContent(searchData, mainViewModel)
+        BottomContent(
+            searchData = searchData,
+            mainViewModel = mainViewModel,
+            appIdValue = appIdValue,
+            appKeyValue = appKeyValue
+        )
 
     }
 }
@@ -88,7 +101,9 @@ fun SearchScreenContent(
 @Composable
 fun BottomContent(
     searchData: APIRequestState<EdamamSearchResult>,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    appIdValue: String,
+    appKeyValue: String
 ) {
 
     val context = LocalContext.current
@@ -96,8 +111,10 @@ fun BottomContent(
         is APIRequestState.Success -> {
             if (searchData.responseValue.hits.isNotEmpty()) {
                 ShowRecipes(
-                    searchData.responseValue.hits,
-                    mainViewModel
+                    hits = searchData.responseValue.hits,
+                    mainViewModel = mainViewModel,
+                    appIdValue = appIdValue,
+                    appKeyValue = appKeyValue
                 )
             }
         }
@@ -140,25 +157,21 @@ fun BottomContent(
 @Composable
 fun ShowRecipes(
     hits: List<Hits>,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    appIdValue: String,
+    appKeyValue: String
 ) {
     val context = LocalContext.current
-    val density = LocalDensity.current
-
-    val ai: ApplicationInfo = LocalContext.current.packageManager
-        .getApplicationInfo(LocalContext.current.packageName, PackageManager.GET_META_DATA)
-    val appId = ai.metaData["appIdValue"]
-    val appKey = ai.metaData["appKeyValue"]
-    val appIdValue = appId.toString()
-    val appKeyValue = appKey.toString()
 
     val nextpageSearchData by mainViewModel.nextpageSearchData.collectAsState()
 
     val listState = rememberLazyListState()
 
+    var visibleButtonIndex by remember { mutableStateOf(6) }
+
     val showButton by remember {
         derivedStateOf {
-            listState.firstVisibleItemIndex > 6
+            listState.firstVisibleItemIndex > visibleButtonIndex
         }
     }
 
@@ -166,20 +179,24 @@ fun ShowRecipes(
 
     when (nextpageSearchData) {
         is APIRequestState.Success -> {
-            if ((nextpageSearchData as APIRequestState.Success<EdamamSearchResult>).responseValue.hits.isNotEmpty()) {
-                Log.d(
-                    "nextpageData", "success response")
-                recipeList.addAll((nextpageSearchData as APIRequestState.Success<EdamamSearchResult>).responseValue.hits)
+            val data = nextpageSearchData as APIRequestState.Success<EdamamSearchResult>
+            if (data.responseValue.hits.isNotEmpty()) {
+                recipeList.addAll(data.responseValue.hits)
+                visibleButtonIndex += 10
+                mainViewModel.setNextSearchPageStatusIdle()
             }
         }
         is APIRequestState.EmptyList -> {
             Toast.makeText(context, "EMPTY LIST STATE", Toast.LENGTH_SHORT).show()
+            mainViewModel.setNextSearchPageStatusIdle()
         }
         is APIRequestState.Error -> {
             Toast.makeText(context, "ERROR state", Toast.LENGTH_SHORT).show()
+            mainViewModel.setNextSearchPageStatusIdle()
         }
         is APIRequestState.BadResponse -> {
             Toast.makeText(context, "BAD RESPONSE state", Toast.LENGTH_SHORT).show()
+            mainViewModel.setNextSearchPageStatusIdle()
         }
         is APIRequestState.Idle -> {
 

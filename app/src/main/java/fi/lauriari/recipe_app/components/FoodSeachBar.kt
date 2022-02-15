@@ -34,13 +34,10 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 fun FoodSearchBar(
     mainViewModel: MainViewModel,
     searchTextState: String,
+    appIdValue: String,
+    appKeyValue: String,
 ) {
-    val ai: ApplicationInfo = LocalContext.current.packageManager
-        .getApplicationInfo(LocalContext.current.packageName, PackageManager.GET_META_DATA)
-    val appId = ai.metaData["appIdValue"]
-    val appKey = ai.metaData["appKeyValue"]
-    val appIdValue = appId.toString()
-    val appKeyValue = appKey.toString()
+
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
 

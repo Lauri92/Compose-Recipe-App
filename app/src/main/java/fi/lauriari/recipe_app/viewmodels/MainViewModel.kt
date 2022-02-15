@@ -78,14 +78,11 @@ class MainViewModel : ViewModel() {
                     searchQuery = nextpageSearchQuery,
                     nextpageContQuery = nextpageContQuery
                 ).collect { response ->
-                    Log.d("valuetest", response.toString())
                     if (response.isSuccessful) {
                         if (response.body()!!.hits.isNotEmpty()) {
-                            Log.d("nextpagedata", "${response.body()!!._links.next}")
                             nextpageContQuery = response.body()!!._links.next.href
                                 .substringAfter("_cont=")
                                 .substringBefore('%')
-                            Log.d("nextpagedata", nextpageContQuery)
                             _nextpageSearchData.value =
                                 APIRequestState.Success(response.body()!!)
                         } else {
@@ -99,6 +96,10 @@ class MainViewModel : ViewModel() {
         } catch (e: Exception) {
             _nextpageSearchData.value = APIRequestState.Error(e)
         }
+    }
+
+    fun setNextSearchPageStatusIdle() {
+        _nextpageSearchData.value = APIRequestState.Idle
     }
 
 }

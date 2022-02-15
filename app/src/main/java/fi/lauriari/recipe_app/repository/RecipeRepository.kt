@@ -29,7 +29,6 @@ class RecipeRepository {
         searchQuery: String,
         nextpageContQuery: String,
     ): Flow<Response<EdamamSearchResult>> {
-        Log.d("nextpagedatarepotest", "$appIdValue, $appKeyValue, $searchQuery, $nextpageContQuery")
         return flow {
             val searchResult =
                 api.getMoreRecipes(
@@ -41,6 +40,4 @@ class RecipeRepository {
             emit(searchResult)
         }.flowOn(context = Dispatchers.IO) // Optional
     }
-
-
 }
