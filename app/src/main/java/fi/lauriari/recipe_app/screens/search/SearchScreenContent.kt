@@ -1,10 +1,12 @@
 package fi.lauriari.recipe_app.screens.search
 
+import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -35,6 +37,7 @@ import fi.lauriari.recipe_app.data.model.Recipe
 import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.util.APIRequestState
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -153,6 +156,7 @@ fun BottomContent(
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun ShowRecipes(
@@ -166,6 +170,8 @@ fun ShowRecipes(
     val nextpageSearchData by mainViewModel.nextpageSearchData.collectAsState()
 
     val listState = rememberLazyListState()
+
+    val coroutineScope = rememberCoroutineScope()
 
     var visibleButtonIndex by remember { mutableStateOf(6) }
 
@@ -184,6 +190,9 @@ fun ShowRecipes(
                 recipeList.addAll(data.responseValue.hits)
                 visibleButtonIndex += 10
                 mainViewModel.setNextSearchPageStatusIdle()
+                coroutineScope.launch {
+                    listState.animateScrollToItem(visibleButtonIndex - 6)
+                }
             }
         }
         is APIRequestState.EmptyList -> {
@@ -233,8 +242,16 @@ fun ShowRecipes(
         }
         AnimatedVisibility(
             visible = showButton,
-            enter = slideInVertically(),
-            exit = slideOutVertically()
+            enter = fadeIn(
+                animationSpec = tween(
+                    durationMillis = 500
+                )
+            ),
+            exit = fadeOut(
+                animationSpec = tween(
+                    durationMillis = 500
+                )
+            )
         ) {
             Box(
                 Modifier
