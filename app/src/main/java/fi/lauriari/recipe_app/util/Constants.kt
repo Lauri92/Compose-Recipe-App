@@ -5,9 +5,8 @@ object Constants {
     const val BASE_URL = "https://api.edamam.com/api/recipes/"
     const val BASE_URL_APPENDABLE = "v2"
 
-    const val MAINMENU_SCREEN = "mainmenu"
     const val SEARCH_SCREEN = "search"
-    const val SEARCH_RESULT_SCREEN = "searchResult"
+    const val DETAILED_RECIPE_SCREEN = "detailedrecipe"
 
     val CUISINE_TYPES = listOf(
         "American",

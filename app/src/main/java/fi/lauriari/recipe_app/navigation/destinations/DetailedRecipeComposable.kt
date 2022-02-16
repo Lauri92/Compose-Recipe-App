@@ -2,21 +2,19 @@ package fi.lauriari.recipe_app.navigation.destinations
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import fi.lauriari.recipe_app.screens.search.SearchScreen
-import fi.lauriari.recipe_app.util.Constants.SEARCH_SCREEN
+import fi.lauriari.recipe_app.screens.detailedrecipe.DetailedRecipeScreen
+import fi.lauriari.recipe_app.util.Constants
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
-fun NavGraphBuilder.searchComposable(
+fun NavGraphBuilder.detailedRecipeComposable(
     mainViewModel: MainViewModel,
-    navigateToDetailedRecipeScreen: () -> Unit,
 ) {
     composable(
-        route = SEARCH_SCREEN,
+        route = Constants.DETAILED_RECIPE_SCREEN,
     ) { navBackStackEntry ->
 
-        SearchScreen(
+        DetailedRecipeScreen(
             mainViewModel = mainViewModel,
-            navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen
         )
     }
 }
