@@ -1,30 +1,23 @@
-package fi.lauriari.recipe_app.components
+package fi.lauriari.recipe_app.screens.search
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import fi.lauriari.recipe_app.ui.theme.BottomNavGray
 import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.ui.theme.UnfocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.util.Constants
-import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun AdvancedSearch(

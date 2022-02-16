@@ -27,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import fi.lauriari.recipe_app.components.AdvancedSearch
-import fi.lauriari.recipe_app.components.FoodSearchBar
 import fi.lauriari.recipe_app.components.SelectedFiltersRow
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
@@ -93,8 +91,6 @@ fun SearchScreenContent(
         BottomContent(
             searchData = searchData,
             mainViewModel = mainViewModel,
-            appIdValue = appIdValue,
-            appKeyValue = appKeyValue
         )
 
     }
@@ -104,8 +100,6 @@ fun SearchScreenContent(
 fun BottomContent(
     searchData: APIRequestState<EdamamSearchResult>,
     mainViewModel: MainViewModel,
-    appIdValue: String,
-    appKeyValue: String
 ) {
 
     val context = LocalContext.current
@@ -115,8 +109,6 @@ fun BottomContent(
                 ShowRecipes(
                     hits = searchData.responseValue.hits,
                     mainViewModel = mainViewModel,
-                    appIdValue = appIdValue,
-                    appKeyValue = appKeyValue
                 )
             }
         }
@@ -161,8 +153,6 @@ fun BottomContent(
 fun ShowRecipes(
     hits: List<Hits>,
     mainViewModel: MainViewModel,
-    appIdValue: String,
-    appKeyValue: String
 ) {
     val context = LocalContext.current
 

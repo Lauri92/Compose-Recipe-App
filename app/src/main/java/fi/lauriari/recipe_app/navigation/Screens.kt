@@ -7,15 +7,4 @@ class Screens(navController: NavController) {
     val search: () -> Unit = {
         navController.navigate(route = "search")
     }
-
-    val mainmenu: () -> Unit = {
-        navController.navigate(route = "mainmenu") {
-            popUpTo(MAINMENU_SCREEN) { inclusive = true }
-        }
-    }
-    val searchResult: () -> Unit = {
-        navController.navigate(route = "searchResult") {
-
-        }
-    }
 }

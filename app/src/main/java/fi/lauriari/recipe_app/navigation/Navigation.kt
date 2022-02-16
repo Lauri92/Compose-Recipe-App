@@ -4,10 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import fi.lauriari.recipe_app.navigation.destinations.mainMenuComposable
 import fi.lauriari.recipe_app.navigation.destinations.searchComposable
-import fi.lauriari.recipe_app.navigation.destinations.searchResultComposable
-import fi.lauriari.recipe_app.util.Constants.MAINMENU_SCREEN
 import fi.lauriari.recipe_app.util.Constants.SEARCH_SCREEN
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
@@ -28,9 +25,5 @@ fun InitNavigation(
         searchComposable(
             mainViewModel = mainViewModel
         )
-        searchResultComposable(
-            mainViewModel = mainViewModel
-        )
-
     }
 }

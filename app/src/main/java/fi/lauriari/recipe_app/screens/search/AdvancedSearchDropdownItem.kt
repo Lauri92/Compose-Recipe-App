@@ -1,4 +1,4 @@
-package fi.lauriari.recipe_app.components
+package fi.lauriari.recipe_app.screens.search
 
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize

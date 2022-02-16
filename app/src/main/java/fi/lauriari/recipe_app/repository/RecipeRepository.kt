@@ -20,7 +20,6 @@ class RecipeRepository {
         mealType: String?,
         dishType: String?
     ): Flow<Response<EdamamSearchResult>> {
-        Log.d("repotest", "$cuisineType, $mealType, $dishType")
         return flow {
             val searchResult = api.getRecipesByQuery(
                 appIdValue = appIdValue,
