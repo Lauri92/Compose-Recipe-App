@@ -264,10 +264,7 @@ fun ShowRecipes(
                 Button(
                     enabled = buttonEnabled,
                     onClick = {
-                        mainViewModel.getNextPageRecipes(
-                            appIdValue = appIdValue,
-                            appKeyValue = appKeyValue,
-                        )
+                        mainViewModel.getNextPageRecipes()
                         buttonEnabled = false
                     }
                 ) {

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.repository.RecipeRepository
 import fi.lauriari.recipe_app.util.APIRequestState
+import fi.lauriari.recipe_app.util.Constants.BASE_URL_APPENDABLE
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -20,8 +21,7 @@ class MainViewModel : ViewModel() {
     val cuisineType: MutableState<String?> = mutableStateOf(null)
     val mealType: MutableState<String?> = mutableStateOf(null)
     val dishType: MutableState<String?> = mutableStateOf(null)
-    private var nextpageSearchQuery: String = ""
-    private var nextpageContQuery: String = ""
+    private var nextPageUrl: String = ""
 
     private var _searchData =
         MutableStateFlow<APIRequestState<EdamamSearchResult>>(APIRequestState.Idle)
@@ -45,10 +45,9 @@ class MainViewModel : ViewModel() {
                 ).collect { response ->
                     if (response.isSuccessful) {
                         if (response.body()!!.hits.isNotEmpty()) {
-                            nextpageSearchQuery = searchQuery
-                            nextpageContQuery = response.body()!!._links?.next?.href
-                                ?.substringAfter("_cont=")
-                                ?.substringBefore('%').toString()
+                            nextPageUrl =
+                                BASE_URL_APPENDABLE + response.body()!!._links?.next?.href
+                                    ?.substringAfter("2").toString()
                             _searchData.value = APIRequestState.Success(response.body()!!)
                         } else {
                             _searchData.value = APIRequestState.EmptyList
@@ -66,27 +65,18 @@ class MainViewModel : ViewModel() {
     val nextpageSearchData: StateFlow<APIRequestState<EdamamSearchResult>> =
         _nextpageSearchData
 
-    fun getNextPageRecipes(
-        appIdValue: String,
-        appKeyValue: String,
-    ) {
+    fun getNextPageRecipes() {
         _nextpageSearchData.value = APIRequestState.Loading
         try {
             viewModelScope.launch {
-                recipeRepository.getMoreRecipesFromApi(
-                    appIdValue = appIdValue,
-                    appKeyValue = appKeyValue,
-                    searchQuery = nextpageSearchQuery,
-                    nextpageContQuery = nextpageContQuery,
-                    cuisineType = cuisineType.value,
-                    mealType = mealType.value,
-                    dishType = dishType.value
+                recipeRepository.getMoreRecipes(
+                    nextPageUrl = nextPageUrl,
                 ).collect { response ->
                     if (response.isSuccessful) {
                         if (response.body()!!.hits.isNotEmpty()) {
-                            nextpageContQuery = response.body()!!._links?.next?.href
-                                ?.substringAfter("_cont=")
-                                ?.substringBefore('%').toString()
+                            nextPageUrl =
+                                BASE_URL_APPENDABLE + response.body()!!._links?.next?.href
+                                    ?.substringAfter("2").toString()
                             _nextpageSearchData.value =
                                 APIRequestState.Success(response.body()!!)
                         } else {

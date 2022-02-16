@@ -34,26 +34,13 @@ class RecipeRepository {
         }.flowOn(context = Dispatchers.IO) // Optional
     }
 
-    suspend fun getMoreRecipesFromApi(
-        appIdValue: String,
-        appKeyValue: String,
-        searchQuery: String,
-        cuisineType: String?,
-        mealType: String?,
-        dishType: String?,
-        nextpageContQuery: String,
+
+    suspend fun getMoreRecipes(
+        nextPageUrl: String,
     ): Flow<Response<EdamamSearchResult>> {
         return flow {
             val searchResult =
-                api.getMoreRecipes(
-                    appIdValue = appIdValue,
-                    appKeyValue = appKeyValue,
-                    searchQuery = searchQuery,
-                    cuisineType = cuisineType,
-                    mealType = mealType,
-                    dishType = dishType,
-                    nextpageContQuery = nextpageContQuery,
-                )
+                api.getMoreRecipes(nextPageUrl = nextPageUrl)
             emit(searchResult)
         }.flowOn(context = Dispatchers.IO) // Optional
     }
