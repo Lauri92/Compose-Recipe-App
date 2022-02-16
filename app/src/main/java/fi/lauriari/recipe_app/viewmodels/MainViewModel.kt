@@ -1,6 +1,5 @@
 package fi.lauriari.recipe_app.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,16 +11,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.Error
 
 class MainViewModel : ViewModel() {
 
     private val recipeRepository = RecipeRepository()
 
     val searchTextState: MutableState<String> = mutableStateOf("")
-    val cuisineType: MutableState<String> = mutableStateOf("")
-    val mealType: MutableState<String> = mutableStateOf("")
-    val dishType: MutableState<String> = mutableStateOf("")
+    val cuisineType: MutableState<String?> = mutableStateOf(null)
+    val mealType: MutableState<String?> = mutableStateOf(null)
+    val dishType: MutableState<String?> = mutableStateOf(null)
     private var nextpageSearchQuery: String = ""
     private var nextpageContQuery: String = ""
 
@@ -29,7 +27,7 @@ class MainViewModel : ViewModel() {
         MutableStateFlow<APIRequestState<EdamamSearchResult>>(APIRequestState.Idle)
     val searchData: StateFlow<APIRequestState<EdamamSearchResult>> = _searchData
 
-    fun getDataByQuery(
+    fun getRecipesByQuery(
         appIdValue: String,
         appKeyValue: String,
         searchQuery: String
@@ -37,17 +35,20 @@ class MainViewModel : ViewModel() {
         _searchData.value = APIRequestState.Loading
         try {
             viewModelScope.launch {
-                recipeRepository.getDataByQuery(
+                recipeRepository.getRecipesByQuery(
                     appIdValue = appIdValue,
                     appKeyValue = appKeyValue,
-                    searchQuery = searchQuery
+                    searchQuery = searchQuery,
+                    cuisineType = cuisineType.value,
+                    mealType = mealType.value,
+                    dishType = dishType.value
                 ).collect { response ->
                     if (response.isSuccessful) {
                         if (response.body()!!.hits.isNotEmpty()) {
                             nextpageSearchQuery = searchQuery
-                            nextpageContQuery = response.body()!!._links.next.href
-                                .substringAfter("_cont=")
-                                .substringBefore('%')
+                            nextpageContQuery = response.body()!!._links?.next?.href
+                                ?.substringAfter("_cont=")
+                                ?.substringBefore('%').toString()
                             _searchData.value = APIRequestState.Success(response.body()!!)
                         } else {
                             _searchData.value = APIRequestState.EmptyList
@@ -76,13 +77,16 @@ class MainViewModel : ViewModel() {
                     appIdValue = appIdValue,
                     appKeyValue = appKeyValue,
                     searchQuery = nextpageSearchQuery,
-                    nextpageContQuery = nextpageContQuery
+                    nextpageContQuery = nextpageContQuery,
+                    cuisineType = cuisineType.value,
+                    mealType = mealType.value,
+                    dishType = dishType.value
                 ).collect { response ->
                     if (response.isSuccessful) {
                         if (response.body()!!.hits.isNotEmpty()) {
-                            nextpageContQuery = response.body()!!._links.next.href
-                                .substringAfter("_cont=")
-                                .substringBefore('%')
+                            nextpageContQuery = response.body()!!._links?.next?.href
+                                ?.substringAfter("_cont=")
+                                ?.substringBefore('%').toString()
                             _nextpageSearchData.value =
                                 APIRequestState.Success(response.body()!!)
                         } else {

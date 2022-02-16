@@ -8,11 +8,14 @@ import retrofit2.http.Query
 interface EdamamAPI {
 
     @GET("v2")
-    suspend fun getDataByQuery(
+    suspend fun getRecipesByQuery(
         @Query("app_id") appIdValue: String,
         @Query("app_key") appKeyValue: String,
         @Query("q") searchQuery: String,
         @Query("type") type: String = "public",
+        @Query("cuisineType") cuisineType: String? = null,
+        @Query("mealType") mealType: String? = null,
+        @Query("dishType") dishType: String? = null,
     ): Response<EdamamSearchResult>
 
     @GET("v2")
@@ -21,8 +24,11 @@ interface EdamamAPI {
         @Query("app_key") appKeyValue: String,
         @Query("q") searchQuery: String,
         @Query("type") type: String = "public",
+        @Query("cuisineType") cuisineType: String? = null,
+        @Query("mealType") mealType: String? = null,
+        @Query("dishType") dishType: String? = null,
         @Query("_cont") nextpageContQuery: String,
-    ) : Response<EdamamSearchResult>
+    ): Response<EdamamSearchResult>
 
 
 }

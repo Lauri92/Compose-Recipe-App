@@ -33,19 +33,19 @@ fun SearchScreen(
                     mainViewModel.cuisineType.value = it
                 },
                 onResetCuisineType = {
-                    mainViewModel.cuisineType.value = ""
+                    mainViewModel.cuisineType.value = null
                 },
                 onMealTypeSelected = {
                     mainViewModel.mealType.value = it
                 },
                 onResetMealType = {
-                    mainViewModel.mealType.value = ""
+                    mainViewModel.mealType.value = null
                 },
                 onDishTypeSelected = {
                     mainViewModel.dishType.value = it
                 },
                 onResetDishType = {
-                    mainViewModel.dishType.value = ""
+                    mainViewModel.dishType.value = null
                 }
             )
         }

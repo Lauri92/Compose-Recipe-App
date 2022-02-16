@@ -6,7 +6,7 @@ data class EdamamSearchResult(
     @SerializedName("from") val from: Int,
     @SerializedName("to") val to: Int,
     @SerializedName("count") val count: Int,
-    @SerializedName("_links") val _links: _links,
+    @SerializedName("_links") val _links: _links?,
     @SerializedName("hits") val hits: List<Hits>
 )
 

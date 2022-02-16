@@ -3,7 +3,6 @@ package fi.lauriari.recipe_app.screens.search
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -173,6 +172,8 @@ fun ShowRecipes(
 
     val coroutineScope = rememberCoroutineScope()
 
+    var buttonEnabled by remember { mutableStateOf(true) }
+
     var visibleButtonIndex by remember { mutableStateOf(6) }
 
     val showButton by remember {
@@ -193,6 +194,7 @@ fun ShowRecipes(
                 coroutineScope.launch {
                     listState.animateScrollToItem(visibleButtonIndex - 6)
                 }
+                buttonEnabled = true
             }
         }
         is APIRequestState.EmptyList -> {
@@ -260,14 +262,16 @@ fun ShowRecipes(
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Button(
+                    enabled = buttonEnabled,
                     onClick = {
                         mainViewModel.getNextPageRecipes(
                             appIdValue = appIdValue,
                             appKeyValue = appKeyValue,
                         )
+                        buttonEnabled = false
                     }
                 ) {
-                    Text("Load more recipes")
+                    Text("Load more")
                 }
             }
         }

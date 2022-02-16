@@ -22,15 +22,15 @@ fun SelectedFiltersRow(
             .padding(bottom = 5.dp)
     ) {
 
-        val list = mutableListOf<Pair<String, () -> Unit>>()
+        val list = mutableListOf<Pair<String?, () -> Unit>>()
 
-        if (mainViewModel.cuisineType.value != "") {
+        if (mainViewModel.cuisineType.value != null) {
             list.add(Pair(mainViewModel.cuisineType.value, onResetCuisineType))
         }
-        if (mainViewModel.mealType.value != "") {
+        if (mainViewModel.mealType.value != null) {
             list.add(Pair(mainViewModel.mealType.value, onResetMealType))
         }
-        if (mainViewModel.dishType.value != "") {
+        if (mainViewModel.dishType.value != null) {
             list.add(Pair(mainViewModel.dishType.value, onResetDishType))
         }
 
@@ -39,8 +39,10 @@ fun SelectedFiltersRow(
                 .fillMaxWidth()
         ) {
             items(items = list) { item ->
-                SelectedFilterItem(selectedFilterValue = item.first) {
-                    item.second()
+                if(item.first != null) {
+                    SelectedFilterItem(selectedFilterValue = item.first!!) {
+                        item.second()
+                    }
                 }
             }
         }

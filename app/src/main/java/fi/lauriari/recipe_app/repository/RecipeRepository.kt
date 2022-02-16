@@ -12,13 +12,24 @@ import retrofit2.Response
 
 class RecipeRepository {
 
-    suspend fun getDataByQuery(
+    suspend fun getRecipesByQuery(
         appIdValue: String,
         appKeyValue: String,
-        searchQuery: String
+        searchQuery: String,
+        cuisineType: String?,
+        mealType: String?,
+        dishType: String?
     ): Flow<Response<EdamamSearchResult>> {
+        Log.d("repotest", "$cuisineType, $mealType, $dishType")
         return flow {
-            val searchResult = api.getDataByQuery(appIdValue, appKeyValue, searchQuery)
+            val searchResult = api.getRecipesByQuery(
+                appIdValue = appIdValue,
+                appKeyValue = appKeyValue,
+                searchQuery = searchQuery,
+                cuisineType = cuisineType,
+                mealType = mealType,
+                dishType = dishType
+            )
             emit(searchResult)
         }.flowOn(context = Dispatchers.IO) // Optional
     }
@@ -27,6 +38,9 @@ class RecipeRepository {
         appIdValue: String,
         appKeyValue: String,
         searchQuery: String,
+        cuisineType: String?,
+        mealType: String?,
+        dishType: String?,
         nextpageContQuery: String,
     ): Flow<Response<EdamamSearchResult>> {
         return flow {
@@ -35,7 +49,10 @@ class RecipeRepository {
                     appIdValue = appIdValue,
                     appKeyValue = appKeyValue,
                     searchQuery = searchQuery,
-                    nextpageContQuery = nextpageContQuery
+                    cuisineType = cuisineType,
+                    mealType = mealType,
+                    dishType = dishType,
+                    nextpageContQuery = nextpageContQuery,
                 )
             emit(searchResult)
         }.flowOn(context = Dispatchers.IO) // Optional
