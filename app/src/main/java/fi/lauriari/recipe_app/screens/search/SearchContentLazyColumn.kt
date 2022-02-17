@@ -47,7 +47,7 @@ fun SearchContentLazyColumn(
             if (searchData.responseValue.hits.isNotEmpty()) {
                 ShowRecipes(
                     navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,
-                    hits = searchData.responseValue.hits,
+                    hits = searchData.responseValue.hits as MutableList<Hits>,
                     mainViewModel = mainViewModel,
                 )
             }
@@ -91,11 +91,13 @@ fun SearchContentLazyColumn(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun ShowRecipes(
-    hits: List<Hits>,
+    hits: MutableList<Hits>,
     mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit,
 ) {
     val context = LocalContext.current
+
+    mainViewModel.recipeList.value = hits
 
     val nextpageSearchData by mainViewModel.nextpageSearchData.collectAsState()
 
@@ -103,29 +105,23 @@ fun ShowRecipes(
 
     val coroutineScope = rememberCoroutineScope()
 
-    var buttonEnabled by remember { mutableStateOf(true) }
-
-    var visibleButtonIndex by remember { mutableStateOf(6) }
-
     val showButton by remember {
         derivedStateOf {
-            listState.firstVisibleItemIndex > visibleButtonIndex
+            listState.firstVisibleItemIndex > mainViewModel.visibleButtonIndex.value
         }
     }
-
-    val recipeList by remember { mutableStateOf(hits.toMutableList()) }
 
     when (nextpageSearchData) {
         is APIRequestState.Success -> {
             val data = nextpageSearchData as APIRequestState.Success<EdamamSearchResult>
             if (data.responseValue.hits.isNotEmpty()) {
-                recipeList.addAll(data.responseValue.hits)
-                visibleButtonIndex += 10
+                mainViewModel.recipeList.value.addAll(data.responseValue.hits)
+                mainViewModel.visibleButtonIndex.value += 10
                 mainViewModel.setNextSearchPageStatusIdle()
                 coroutineScope.launch {
-                    listState.animateScrollToItem(visibleButtonIndex - 6)
+                    listState.animateScrollToItem(mainViewModel.visibleButtonIndex.value - 6)
                 }
-                buttonEnabled = true
+                mainViewModel.buttonEnabled.value = true
             }
         }
         is APIRequestState.EmptyList -> {
@@ -168,7 +164,7 @@ fun ShowRecipes(
             ),
         ) {
             items(
-                items = recipeList,
+                items = mainViewModel.recipeList.value,
             ) { hit ->
                 SingleRecipe(
                     recipe = hit.recipe,
@@ -196,10 +192,10 @@ fun ShowRecipes(
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Button(
-                    enabled = buttonEnabled,
+                    enabled = mainViewModel.buttonEnabled.value,
                     onClick = {
                         mainViewModel.getNextPageRecipes()
-                        buttonEnabled = false
+                        mainViewModel.buttonEnabled.value = false
                     }
                 ) {
                     Text("Load more")
