@@ -37,7 +37,6 @@ fun FoodSearchBar(
 ) {
 
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
 
     var isSearchbarFocused by remember { mutableStateOf(false) }
     val searchbarBgColor by animateColorAsState(
@@ -79,6 +78,7 @@ fun FoodSearchBar(
         trailingIcon = {
             IconButton(
                 onClick = {
+                    mainViewModel.visibleButtonIndex.value = 6
                     focusManager.clearFocus()
                     mainViewModel.getRecipesByQuery(
                         appIdValue = appIdValue,
@@ -99,6 +99,7 @@ fun FoodSearchBar(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
+                mainViewModel.visibleButtonIndex.value = 6
                 focusManager.clearFocus()
                 mainViewModel.getRecipesByQuery(
                     appIdValue = appIdValue,
