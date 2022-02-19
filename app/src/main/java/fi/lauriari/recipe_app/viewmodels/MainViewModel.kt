@@ -1,5 +1,6 @@
 package fi.lauriari.recipe_app.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -53,6 +54,7 @@ class MainViewModel : ViewModel() {
                 ).collect { response ->
                     if (response.isSuccessful) {
                         if (response.body()!!.hits.isNotEmpty()) {
+                            Log.d("copytest", response.body()!!.hits.toString())
                             nextPageUrl =
                                 BASE_URL_APPENDABLE + response.body()!!._links?.next?.href
                                     ?.substringAfter("2").toString()
