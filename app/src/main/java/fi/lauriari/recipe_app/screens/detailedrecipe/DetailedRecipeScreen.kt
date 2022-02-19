@@ -8,5 +8,7 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 fun DetailedRecipeScreen(
     mainViewModel: MainViewModel
 ) {
-    Text(text = "Put something relevant here.")
+    if (mainViewModel.selectedRecipe != null) {
+        Text(text = mainViewModel.selectedRecipe!!.label)
+    }
 }

@@ -169,6 +169,7 @@ fun ShowRecipes(
                 SingleRecipe(
                     recipe = hit.recipe,
                     navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,
+                    mainViewModel = mainViewModel
                 )
             }
         }
@@ -208,11 +209,13 @@ fun ShowRecipes(
 @Composable
 fun SingleRecipe(
     recipe: Recipe,
+    mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .clickable {
+                mainViewModel.selectedRecipe = recipe
                 navigateToDetailedRecipeScreen()
             }
             .padding(top = 10.dp, bottom = 10.dp)
