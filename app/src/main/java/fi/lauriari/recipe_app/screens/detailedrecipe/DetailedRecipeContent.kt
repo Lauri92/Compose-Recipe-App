@@ -77,47 +77,45 @@ fun DetailedRecipeContent(
                         modifier = Modifier.padding(10.dp),
                         text = currentIngredient
                     )
-
-                    if (mainViewModel.selectedRecipe?.ingredientLines?.last() != currentIngredient) {
-                        Divider(
-                            color = Color.LightGray,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .width(1.dp)
-                        )
-                    } else {
-                        Row(
-                            modifier = Modifier
-                                .padding(bottom = 20.dp)
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(
-                                    start = 10.dp, end = 10.dp, top = 10.dp
-                                ),
-                                text = "Instructions",
-                                fontSize = 22.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            IconButton(
-                                modifier = Modifier
-                                    .padding(bottom = 50.dp),
-                                onClick = {
-                                    if (mainViewModel.selectedRecipe != null) {
-                                        uriHandler.openUri(mainViewModel.selectedRecipe!!.url)
-                                    }
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowForward,
-                                    contentDescription = "",
-                                    tint = bottomNavigationOrange
-                                )
-                            }
-
-                        }
-                    }
+                    Divider(
+                        color = Color.LightGray,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .width(1.dp)
+                    )
                 }
             }
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+            ) {
+                Text(
+                    modifier = Modifier.padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp
+                    ),
+                    text = "Instructions",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                IconButton(
+                    modifier = Modifier
+                        .padding(bottom = 50.dp),
+                    onClick = {
+                        if (mainViewModel.selectedRecipe != null) {
+                            uriHandler.openUri(mainViewModel.selectedRecipe!!.url)
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowForward,
+                        contentDescription = "",
+                        tint = bottomNavigationOrange
+                    )
+                }
+
+
+            }
+
         }
     }
 }

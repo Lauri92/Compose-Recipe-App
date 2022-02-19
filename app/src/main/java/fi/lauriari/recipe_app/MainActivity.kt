@@ -6,10 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import fi.lauriari.recipe_app.navigation.InitNavigation
 import fi.lauriari.recipe_app.ui.theme.RecipeAppTheme
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
