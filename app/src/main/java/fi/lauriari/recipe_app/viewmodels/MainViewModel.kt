@@ -1,11 +1,13 @@
 package fi.lauriari.recipe_app.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
+import fi.lauriari.recipe_app.data.model.Recipe
 import fi.lauriari.recipe_app.repository.RecipeRepository
 import fi.lauriari.recipe_app.util.APIRequestState
 import fi.lauriari.recipe_app.util.Constants.BASE_URL_APPENDABLE
@@ -27,6 +29,8 @@ class MainViewModel : ViewModel() {
     var recipeList: MutableState<MutableList<Hits>> = mutableStateOf(mutableListOf())
     var buttonEnabled: MutableState<Boolean> = mutableStateOf(true)
     var visibleButtonIndex: MutableState<Int> = mutableStateOf(6)
+
+    var selectedRecipe: Recipe? = null
 
     private var _searchData =
         MutableStateFlow<APIRequestState<EdamamSearchResult>>(APIRequestState.Idle)
@@ -50,6 +54,7 @@ class MainViewModel : ViewModel() {
                 ).collect { response ->
                     if (response.isSuccessful) {
                         if (response.body()!!.hits.isNotEmpty()) {
+                            Log.d("copytest", response.body()!!.hits.toString())
                             nextPageUrl =
                                 BASE_URL_APPENDABLE + response.body()!!._links?.next?.href
                                     ?.substringAfter("2").toString()

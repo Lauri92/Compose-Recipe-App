@@ -1,12 +1,27 @@
 package fi.lauriari.recipe_app.screens.detailedrecipe
 
-import androidx.compose.material.Text
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import fi.lauriari.recipe_app.components.BottomNavBar
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun DetailedRecipeScreen(
     mainViewModel: MainViewModel
 ) {
-    Text(text = "Put something relevant here.")
+    Scaffold(
+        topBar = {
+            TopBar()
+        },
+        content = {
+            DetailedRecipeContent(
+                mainViewModel = mainViewModel
+            )
+        },
+        bottomBar = {
+            BottomNavBar(mainViewModel = mainViewModel)
+        },
+    )
 }
+
+
