@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
 import fi.lauriari.recipe_app.data.model.Recipe
@@ -15,10 +16,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val recipeRepository: RecipeRepository
+) : ViewModel() {
 
-    private val recipeRepository = RecipeRepository()
 
     val searchTextState: MutableState<String> = mutableStateOf("")
     val cuisineType: MutableState<String?> = mutableStateOf(null)

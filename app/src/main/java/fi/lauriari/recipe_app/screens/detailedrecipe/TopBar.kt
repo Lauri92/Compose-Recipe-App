@@ -11,7 +11,7 @@ import fi.lauriari.recipe_app.ui.theme.bottomNavigationOrange
 
 
 @Composable
-fun TopBar() {
+fun SingleRecipeTopBar() {
 
     val context = LocalContext.current
 
