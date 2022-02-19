@@ -53,6 +53,7 @@ fun SearchContentLazyColumn(
             }
         }
         is APIRequestState.EmptyList -> {
+            mainViewModel.visibleButtonIndex.value = 6
             Text(text = "No hits")
         }
         is APIRequestState.Loading -> {
