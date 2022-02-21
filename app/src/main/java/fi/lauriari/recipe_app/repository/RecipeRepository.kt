@@ -53,12 +53,11 @@ class RecipeRepository @Inject constructor(
     }
 
 
+    val getAllFavoriteRecipes: Flow<List<FavoriteRecipe>> =
+        favoriteRecipeDao.getAllFavoriteRecipes()
+
     suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe) {
         return favoriteRecipeDao.insertFavoriteRecipe(favoriteRecipe)
-    }
-
-    suspend fun getAllFavoriteRecipes(): List<FavoriteRecipe> {
-        return favoriteRecipeDao.getAllFavoriteRecipes()
     }
 
     suspend fun deleteFavoriteRecipe(id: String) {
@@ -66,7 +65,6 @@ class RecipeRepository @Inject constructor(
     }
 
     fun getRecipeById(id: String): Flow<FavoriteRecipe?> {
-        Log.d("recipetest", "repo: $id")
         return favoriteRecipeDao.getRecipeById(id)
     }
 

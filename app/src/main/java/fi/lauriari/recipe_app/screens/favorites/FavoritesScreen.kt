@@ -1,8 +1,8 @@
 package fi.lauriari.recipe_app.screens.favorites
 
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import fi.lauriari.recipe_app.components.BottomNavBar
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
@@ -11,6 +11,9 @@ fun FavoritesScreen(
     mainViewModel: MainViewModel,
     navigateToSearchScreen: () -> Unit
 ) {
+
+    val allFavoriteRecipes = mainViewModel.allFavoriteRecipes.collectAsState()
+
     Scaffold(
         bottomBar = {
             BottomNavBar(
@@ -20,7 +23,10 @@ fun FavoritesScreen(
             )
         },
         content = {
-            Text("hello")
+            FavoritesContent(
+                mainViewModel = mainViewModel,
+                allFavoriteRecipes = allFavoriteRecipes
+            )
         }
     )
 }

@@ -19,13 +19,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
+
+    init {
+        getAllFavoriteRecipes()
+    }
 
     var selectedScreen: MutableState<String> = mutableStateOf(SEARCH_SCREEN)
 
@@ -115,6 +118,19 @@ class MainViewModel @Inject constructor(
         _nextpageSearchData.value = APIRequestState.Idle
     }
 
+    private val _allFavoriteRecipes =
+        MutableStateFlow<List<FavoriteRecipe>>(emptyList())
+    val allFavoriteRecipes: StateFlow<List<FavoriteRecipe>> = _allFavoriteRecipes
+
+    private fun getAllFavoriteRecipes() {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            recipeRepository.getAllFavoriteRecipes.collect { favoriteRecipeList ->
+                _allFavoriteRecipes.value = favoriteRecipeList
+            }
+        }
+    }
+
+
     fun insertFavoriteRecipe() {
 
         val recipeId = selectedRecipe?.uri?.substringAfter("recipe_").toString()
@@ -152,5 +168,6 @@ class MainViewModel @Inject constructor(
             )
         }
     }
+
 
 }

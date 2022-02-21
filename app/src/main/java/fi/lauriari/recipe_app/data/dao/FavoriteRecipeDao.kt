@@ -14,7 +14,7 @@ interface FavoriteRecipeDao {
     suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe)
 
     @Query("SELECT * FROM favorite_recipe_table")
-    suspend fun getAllFavoriteRecipes(): List<FavoriteRecipe>
+    fun getAllFavoriteRecipes(): Flow<List<FavoriteRecipe>>
 
     @Query("DELETE FROM favorite_recipe_table where id= :id")
     suspend fun deleteFavoriteRecipe(id: String)
