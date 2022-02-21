@@ -9,6 +9,7 @@ object Constants {
 
     const val SEARCH_SCREEN = "search"
     const val DETAILED_RECIPE_SCREEN = "detailedrecipe"
+    const val FAVORITES_SCREEN = "favorites"
 
     val CUISINE_TYPES = listOf(
         "American",

@@ -12,4 +12,8 @@ class Screens(navController: NavController) {
         navController.navigate(route = "detailedrecipe")
     }
 
+    val favorites: () -> Unit = {
+        navController.navigate(route = "favorites")
+    }
+
 }

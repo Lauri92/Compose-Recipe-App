@@ -17,7 +17,8 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun BottomNavBar(
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    navigateToFavoriteScreen: () -> Unit
 ) {
     var selectedItem by remember { mutableStateOf(0) }
     val context = LocalContext.current
@@ -58,11 +59,7 @@ fun BottomNavBar(
             selected = selectedItem == 1,
             onClick = {
                 selectedItem = 1
-                Toast.makeText(
-                    context,
-                    "${mainViewModel.cuisineType.value} ${mainViewModel.mealType.value} ${mainViewModel.dishType.value}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                navigateToFavoriteScreen()
             })
     }
 }
