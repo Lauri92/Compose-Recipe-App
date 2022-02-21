@@ -1,12 +1,12 @@
 package fi.lauriari.recipe_app.navigation
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import fi.lauriari.recipe_app.navigation.destinations.detailedRecipeComposable
 import fi.lauriari.recipe_app.navigation.destinations.searchComposable
-import fi.lauriari.recipe_app.util.Constants.DETAILED_RECIPE_SCREEN
 import fi.lauriari.recipe_app.util.Constants.SEARCH_SCREEN
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
@@ -19,6 +19,8 @@ fun InitNavigation(
         Screens(navController = navController)
     }
 
+    val listState = rememberLazyListState()
+
     NavHost(
         navController = navController,
         startDestination = SEARCH_SCREEN
@@ -26,11 +28,13 @@ fun InitNavigation(
 
         searchComposable(
             mainViewModel = mainViewModel,
-            navigateToDetailedRecipeScreen = screen.detailedRecipe
+            navigateToDetailedRecipeScreen = screen.detailedRecipe,
+            listState = listState
         )
 
         detailedRecipeComposable(
-            mainViewModel = mainViewModel
+            mainViewModel = mainViewModel,
+            navigateToSearchScreen = screen.search
         )
     }
 }

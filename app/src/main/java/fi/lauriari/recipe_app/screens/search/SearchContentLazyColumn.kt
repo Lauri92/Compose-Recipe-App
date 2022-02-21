@@ -11,10 +11,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -39,6 +36,7 @@ fun SearchContentLazyColumn(
     searchData: APIRequestState<EdamamSearchResult>,
     mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit,
+    listState: LazyListState,
 ) {
 
     val context = LocalContext.current
@@ -49,6 +47,7 @@ fun SearchContentLazyColumn(
                     navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,
                     hits = searchData.responseValue.hits as MutableList<Hits>,
                     mainViewModel = mainViewModel,
+                    listState = listState
                 )
             }
         }
@@ -95,6 +94,7 @@ fun ShowRecipes(
     hits: MutableList<Hits>,
     mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit,
+    listState: LazyListState,
 ) {
     val context = LocalContext.current
 
@@ -102,7 +102,7 @@ fun ShowRecipes(
 
     val nextpageSearchData by mainViewModel.nextpageSearchData.collectAsState()
 
-    val listState = rememberLazyListState()
+    //val listState = rememberLazyListState()
 
     val coroutineScope = rememberCoroutineScope()
 

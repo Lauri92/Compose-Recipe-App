@@ -4,6 +4,8 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -24,7 +26,8 @@ fun SearchScreenContent(
     onResetMealType: () -> Unit,
     onDishTypeSelected: (String) -> Unit,
     onResetDishType: () -> Unit,
-    navigateToDetailedRecipeScreen: () -> Unit
+    navigateToDetailedRecipeScreen: () -> Unit,
+    listState: LazyListState
 ) {
 
     val ai: ApplicationInfo = LocalContext.current.packageManager
@@ -69,7 +72,8 @@ fun SearchScreenContent(
         SearchContentLazyColumn(
             searchData = searchData,
             mainViewModel = mainViewModel,
-            navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen
+            navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,
+            listState = listState
         )
 
     }

@@ -1,6 +1,7 @@
 package fi.lauriari.recipe_app.screens.search
 
 
+import androidx.compose.foundation.lazy.LazyListState
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -11,6 +12,7 @@ import fi.lauriari.recipe_app.components.BottomNavBar
 fun SearchScreen(
     mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit,
+    listState: LazyListState,
 ) {
 
     val searchTextState: String by mainViewModel.searchTextState
@@ -23,6 +25,7 @@ fun SearchScreen(
         content = {
             SearchScreenContent(
                 navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,
+                listState = listState,
                 mainViewModel = mainViewModel,
                 searchTextState = searchTextState,
                 onCuisineTypeSelected = {

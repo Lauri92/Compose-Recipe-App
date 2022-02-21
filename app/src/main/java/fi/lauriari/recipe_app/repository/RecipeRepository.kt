@@ -65,7 +65,7 @@ class RecipeRepository @Inject constructor(
         favoriteRecipeDao.deleteFavoriteRecipe(id)
     }
 
-    suspend fun getRecipeById(id: String): Flow<FavoriteRecipe?> {
+    fun getRecipeById(id: String): Flow<FavoriteRecipe?> {
         Log.d("recipetest", "repo: $id")
         return favoriteRecipeDao.getRecipeById(id)
     }

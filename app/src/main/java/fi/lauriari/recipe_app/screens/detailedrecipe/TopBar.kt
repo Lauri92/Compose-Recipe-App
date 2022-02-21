@@ -2,11 +2,11 @@ package fi.lauriari.recipe_app.screens.detailedrecipe
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import fi.lauriari.recipe_app.ui.theme.bottomNavigationOrange
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
@@ -14,12 +14,14 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 @Composable
 fun SingleRecipeTopBar(
     mainViewModel: MainViewModel,
-    isRecipeFavorited: Boolean
+    isRecipeFavorited: Boolean,
+    navigateToSearchScreen: () -> Unit
 ) {
 
-    val context = LocalContext.current
-
     TopAppBar(
+        navigationIcon = {
+            BackButton(navigateToSearchScreen = navigateToSearchScreen)
+        },
         title = {
             Text(text = "")
         },
@@ -63,6 +65,23 @@ fun RemoveFavoriteRecipeIcon(
     ) {
         Icon(
             imageVector = Icons.Filled.Favorite,
+            contentDescription = "",
+            tint = bottomNavigationOrange
+        )
+    }
+}
+
+@Composable
+fun BackButton(
+    navigateToSearchScreen: () -> Unit
+) {
+    IconButton(
+        onClick = {
+            navigateToSearchScreen()
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Filled.ArrowBack,
             contentDescription = "",
             tint = bottomNavigationOrange
         )
