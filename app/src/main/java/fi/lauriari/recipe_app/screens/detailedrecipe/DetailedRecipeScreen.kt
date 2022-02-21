@@ -11,7 +11,9 @@ fun DetailedRecipeScreen(
 ) {
     Scaffold(
         topBar = {
-            SingleRecipeTopBar()
+            SingleRecipeTopBar(
+                mainViewModel = mainViewModel
+            )
         },
         content = {
             DetailedRecipeContent(

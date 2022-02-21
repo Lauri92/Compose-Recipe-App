@@ -6,12 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
 import fi.lauriari.recipe_app.data.model.Recipe
 import fi.lauriari.recipe_app.repository.RecipeRepository
 import fi.lauriari.recipe_app.util.APIRequestState
 import fi.lauriari.recipe_app.util.Constants.BASE_URL_APPENDABLE
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -108,6 +110,23 @@ class MainViewModel @Inject constructor(
 
     fun setNextSearchPageStatusIdle() {
         _nextpageSearchData.value = APIRequestState.Idle
+    }
+
+    fun insertFavoriteRecipe() {
+
+        val recipeId = selectedRecipe?.uri?.substringAfter("recipe_").toString()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            recipeRepository.insertFavoriteRecipe(
+                FavoriteRecipe(
+                    id = recipeId,
+                    label = selectedRecipe?.label.toString(),
+                    imageUrl = selectedRecipe?.image.toString(),
+                    instructionsUrl = selectedRecipe?.url.toString()
+
+                )
+            )
+        }
     }
 
 }

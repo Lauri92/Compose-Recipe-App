@@ -8,10 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import fi.lauriari.recipe_app.ui.theme.bottomNavigationOrange
+import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 
 @Composable
-fun SingleRecipeTopBar() {
+fun SingleRecipeTopBar(mainViewModel: MainViewModel) {
 
     val context = LocalContext.current
 
@@ -22,7 +23,8 @@ fun SingleRecipeTopBar() {
         actions = {
             IconButton(
                 onClick = {
-                    Toast.makeText(context, "Handle favorite here", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Handle favorite here", Toast.LENGTH_SHORT).show()
+                    mainViewModel.insertFavoriteRecipe()
                 }
             ) {
                 Icon(

@@ -10,12 +10,15 @@ import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
 interface FavoriteRecipeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe): String
+    suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe)
 
     @Query("SELECT * FROM favorite_recipe_table")
     suspend fun getAllFavoriteRecipes(): List<FavoriteRecipe>
 
     @Query("DELETE FROM favorite_recipe_table where id= :id")
     suspend fun deleteFavoriteRecipe(id: String)
+
+    @Query("SELECT * FROM favorite_recipe_table WHERE id= :id")
+    suspend fun getRecipeById(id: String): FavoriteRecipe?
 
 }

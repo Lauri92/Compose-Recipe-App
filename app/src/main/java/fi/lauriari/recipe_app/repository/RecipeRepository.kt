@@ -52,7 +52,7 @@ class RecipeRepository @Inject constructor(
     }
 
 
-    suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe): String {
+    suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe) {
         return favoriteRecipeDao.insertFavoriteRecipe(favoriteRecipe)
     }
 
