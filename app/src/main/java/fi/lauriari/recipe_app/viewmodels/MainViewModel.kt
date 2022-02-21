@@ -13,6 +13,7 @@ import fi.lauriari.recipe_app.data.model.Recipe
 import fi.lauriari.recipe_app.repository.RecipeRepository
 import fi.lauriari.recipe_app.util.APIRequestState
 import fi.lauriari.recipe_app.util.Constants.BASE_URL_APPENDABLE
+import fi.lauriari.recipe_app.util.Constants.SEARCH_SCREEN
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +27,7 @@ class MainViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
 
+    var selectedScreen: MutableState<String> = mutableStateOf(SEARCH_SCREEN)
 
     val searchTextState: MutableState<String> = mutableStateOf("")
     val cuisineType: MutableState<String?> = mutableStateOf(null)

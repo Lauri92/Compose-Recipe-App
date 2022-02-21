@@ -30,7 +30,7 @@ fun InitNavigation(
         searchComposable(
             mainViewModel = mainViewModel,
             navigateToDetailedRecipeScreen = screen.detailedRecipe,
-            navigateToFavoriteScreen = screen.favorites,
+            navigateToFavoritesScreen = screen.favorites,
             listState = listState
         )
 
@@ -39,6 +39,9 @@ fun InitNavigation(
             navigateToSearchScreen = screen.search
         )
 
-        favoritesComposable()
+        favoritesComposable(
+            mainViewModel = mainViewModel,
+            navigateToSearchScreen = screen.search
+        )
     }
 }

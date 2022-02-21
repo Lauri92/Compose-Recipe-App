@@ -1,6 +1,5 @@
 package fi.lauriari.recipe_app.components
 
-import android.widget.Toast
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -13,15 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import fi.lauriari.recipe_app.ui.theme.bottomNavigationGray
 import fi.lauriari.recipe_app.ui.theme.bottomNavigationOrange
+import fi.lauriari.recipe_app.util.Constants.FAVORITES_SCREEN
+import fi.lauriari.recipe_app.util.Constants.SEARCH_SCREEN
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun BottomNavBar(
-    mainViewModel: MainViewModel,
-    navigateToFavoriteScreen: () -> Unit
+    navigateToSearchScreen: () -> Unit,
+    navigateToFavoritesScreen: () -> Unit,
+    mainViewModel: MainViewModel
 ) {
-    var selectedItem by remember { mutableStateOf(0) }
-    val context = LocalContext.current
+
+    var selectedItem by mainViewModel.selectedScreen
+
     BottomNavigation(
         backgroundColor = Color.White
     ) {
@@ -39,8 +42,11 @@ fun BottomNavBar(
                     text = "Find",
                 )
             },
-            selected = selectedItem == 0,
-            onClick = { selectedItem = 0 }
+            selected = selectedItem == SEARCH_SCREEN,
+            onClick = {
+                selectedItem = SEARCH_SCREEN
+                navigateToSearchScreen()
+            }
         )
         BottomNavigationItem(
             selectedContentColor = bottomNavigationOrange,
@@ -56,10 +62,10 @@ fun BottomNavBar(
                     text = "My Recipes",
                 )
             },
-            selected = selectedItem == 1,
+            selected = selectedItem == FAVORITES_SCREEN,
             onClick = {
-                selectedItem = 1
-                navigateToFavoriteScreen()
+                selectedItem = FAVORITES_SCREEN
+                navigateToFavoritesScreen()
             })
     }
 }

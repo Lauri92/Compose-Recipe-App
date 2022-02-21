@@ -11,7 +11,7 @@ fun NavGraphBuilder.searchComposable(
     mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit,
     listState: LazyListState,
-    navigateToFavoriteScreen: () -> Unit,
+    navigateToFavoritesScreen: () -> Unit,
 ) {
     composable(
         route = SEARCH_SCREEN,
@@ -20,7 +20,7 @@ fun NavGraphBuilder.searchComposable(
         SearchScreen(
             mainViewModel = mainViewModel,
             navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,
-            navigateToFavoriteScreen = navigateToFavoriteScreen,
+            navigateToFavoritesScreen = navigateToFavoritesScreen,
             listState = listState
         )
     }

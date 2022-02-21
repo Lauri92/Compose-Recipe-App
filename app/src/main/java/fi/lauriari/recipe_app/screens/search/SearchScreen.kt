@@ -13,7 +13,7 @@ fun SearchScreen(
     mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit,
     listState: LazyListState,
-    navigateToFavoriteScreen: () -> Unit,
+    navigateToFavoritesScreen: () -> Unit,
 ) {
 
     val searchTextState: String by mainViewModel.searchTextState
@@ -22,8 +22,9 @@ fun SearchScreen(
     Scaffold(
         bottomBar = {
             BottomNavBar(
-                mainViewModel = mainViewModel,
-                navigateToFavoriteScreen = navigateToFavoriteScreen
+                navigateToSearchScreen = {},
+                navigateToFavoritesScreen = navigateToFavoritesScreen,
+                mainViewModel = mainViewModel
             )
         },
         content = {
