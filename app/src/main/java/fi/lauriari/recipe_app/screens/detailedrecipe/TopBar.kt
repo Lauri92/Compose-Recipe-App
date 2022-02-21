@@ -45,6 +45,7 @@ fun AddFavoriteRecipeIcon(mainViewModel: MainViewModel) {
     IconButton(
         onClick = {
             mainViewModel.insertFavoriteRecipe()
+            //mainViewModel.insertIngredientLines()
         }
     ) {
         Icon(

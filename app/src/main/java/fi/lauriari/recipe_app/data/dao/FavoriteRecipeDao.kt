@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
+import fi.lauriari.recipe_app.data.entities.IngredientLine
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,5 +22,11 @@ interface FavoriteRecipeDao {
 
     @Query("SELECT * FROM favorite_recipe_table WHERE id= :id")
     fun getRecipeById(id: String): Flow<FavoriteRecipe?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertIngredientLine(ingredientLine: IngredientLine)
+
+    @Query("DELETE FROM ingredient_lines_table WHERE recipeId= :recipeId")
+    suspend fun deleteIngredientLines(recipeId: String)
 
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
+import fi.lauriari.recipe_app.data.entities.IngredientLine
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
 import fi.lauriari.recipe_app.data.model.Recipe
@@ -145,6 +146,15 @@ class MainViewModel @Inject constructor(
 
                 )
             )
+            selectedRecipe?.ingredientLines?.forEach { ingredientLine ->
+                recipeRepository.insertIngredientLine(
+                    IngredientLine(
+                        id = 0,
+                        recipeId = recipeId,
+                        description = ingredientLine
+                    )
+                )
+            }
         }
     }
 
@@ -164,6 +174,9 @@ class MainViewModel @Inject constructor(
     fun deleteFavoriteRecipe() {
         viewModelScope.launch(context = Dispatchers.IO) {
             recipeRepository.deleteFavoriteRecipe(
+                selectedRecipe?.uri?.substringAfter("recipe_").toString()
+            )
+            recipeRepository.deleteIngredientLines(
                 selectedRecipe?.uri?.substringAfter("recipe_").toString()
             )
         }
