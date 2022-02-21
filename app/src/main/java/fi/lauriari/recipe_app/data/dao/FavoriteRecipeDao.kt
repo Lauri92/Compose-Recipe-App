@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteRecipeDao {
@@ -19,6 +20,6 @@ interface FavoriteRecipeDao {
     suspend fun deleteFavoriteRecipe(id: String)
 
     @Query("SELECT * FROM favorite_recipe_table WHERE id= :id")
-    suspend fun getRecipeById(id: String): FavoriteRecipe?
+    fun getRecipeById(id: String): Flow<FavoriteRecipe?>
 
 }

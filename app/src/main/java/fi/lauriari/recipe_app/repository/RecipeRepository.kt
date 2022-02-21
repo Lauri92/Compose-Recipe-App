@@ -1,6 +1,7 @@
 package fi.lauriari.recipe_app.repository
 
 
+import android.util.Log
 import dagger.hilt.android.scopes.ViewModelScoped
 import fi.lauriari.recipe_app.data.api.RecipeApiRetrofitInstance.api
 import fi.lauriari.recipe_app.data.dao.FavoriteRecipeDao
@@ -62,6 +63,11 @@ class RecipeRepository @Inject constructor(
 
     suspend fun deleteFavoriteRecipe(id: String) {
         favoriteRecipeDao.deleteFavoriteRecipe(id)
+    }
+
+    suspend fun getRecipeById(id: String): Flow<FavoriteRecipe?> {
+        Log.d("recipetest", "repo: $id")
+        return favoriteRecipeDao.getRecipeById(id)
     }
 
 }

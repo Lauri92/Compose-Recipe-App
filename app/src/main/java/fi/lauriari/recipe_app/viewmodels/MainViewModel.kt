@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -125,6 +126,27 @@ class MainViewModel @Inject constructor(
                     instructionsUrl = selectedRecipe?.url.toString()
 
                 )
+            )
+        }
+    }
+
+    private val _isRecipeFavorited: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isRecipeFavorited: StateFlow<Boolean> = _isRecipeFavorited
+
+    fun getFavoritedRecipeStatus() {
+        viewModelScope.launch {
+            recipeRepository.getRecipeById(
+                selectedRecipe?.uri?.substringAfter("recipe_").toString()
+            ).collect { favoriteRecipe ->
+                _isRecipeFavorited.value = favoriteRecipe != null
+            }
+        }
+    }
+
+    fun deleteFavoriteRecipe() {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            recipeRepository.deleteFavoriteRecipe(
+                selectedRecipe?.uri?.substringAfter("recipe_").toString()
             )
         }
     }
