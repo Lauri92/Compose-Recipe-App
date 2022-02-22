@@ -26,7 +26,8 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 @Composable
 fun FavoritesContent(
     mainViewModel: MainViewModel,
-    allFavoriteRecipes: State<List<RecipeWithIngredientLines>>
+    allFavoriteRecipes: State<List<RecipeWithIngredientLines>>,
+    navigateToDetailedFavoriteScreen: (String) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -49,7 +50,7 @@ fun FavoritesContent(
             Column(
                 modifier = Modifier
                     .clickable {
-
+                        navigateToDetailedFavoriteScreen(favorite.favoriteRecipe.id)
                     }
                     .padding(top = 10.dp, bottom = 10.dp)
                     .fillMaxWidth()

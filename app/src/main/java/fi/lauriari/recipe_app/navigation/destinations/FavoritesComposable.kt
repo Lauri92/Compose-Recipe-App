@@ -8,7 +8,8 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 fun NavGraphBuilder.favoritesComposable(
     mainViewModel: MainViewModel,
-    navigateToSearchScreen: () -> Unit
+    navigateToSearchScreen: () -> Unit,
+    navigateToDetailedFavoriteScreen: (String) -> Unit
 ) {
     composable(
         route = FAVORITES_SCREEN
@@ -16,7 +17,8 @@ fun NavGraphBuilder.favoritesComposable(
 
         FavoritesScreen(
             mainViewModel = mainViewModel,
-            navigateToSearchScreen = navigateToSearchScreen
+            navigateToSearchScreen = navigateToSearchScreen,
+            navigateToDetailedFavoriteScreen = navigateToDetailedFavoriteScreen
         )
 
     }

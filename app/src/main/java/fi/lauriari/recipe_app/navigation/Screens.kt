@@ -16,4 +16,8 @@ class Screens(navController: NavController) {
         navController.navigate(route = "favorites")
     }
 
+    val detailedFavorite: (String) -> Unit = { favoriteId ->
+        navController.navigate(route = "detailedfavorite/$favoriteId")
+    }
+
 }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import fi.lauriari.recipe_app.navigation.destinations.detailedFavoriteComposable
 import fi.lauriari.recipe_app.navigation.destinations.detailedRecipeComposable
 import fi.lauriari.recipe_app.navigation.destinations.favoritesComposable
 import fi.lauriari.recipe_app.navigation.destinations.searchComposable
@@ -41,7 +42,12 @@ fun InitNavigation(
 
         favoritesComposable(
             mainViewModel = mainViewModel,
-            navigateToSearchScreen = screen.search
+            navigateToSearchScreen = screen.search,
+            navigateToDetailedFavoriteScreen = screen.detailedFavorite
+        )
+
+        detailedFavoriteComposable(
+
         )
     }
 }

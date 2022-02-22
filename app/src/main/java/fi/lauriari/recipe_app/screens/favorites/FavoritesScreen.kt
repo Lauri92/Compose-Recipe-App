@@ -9,7 +9,8 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 @Composable
 fun FavoritesScreen(
     mainViewModel: MainViewModel,
-    navigateToSearchScreen: () -> Unit
+    navigateToSearchScreen: () -> Unit,
+    navigateToDetailedFavoriteScreen: (String) -> Unit
 ) {
 
     val allFavoriteRecipes = mainViewModel.allFavoriteRecipes.collectAsState()
@@ -25,7 +26,8 @@ fun FavoritesScreen(
         content = {
             FavoritesContent(
                 mainViewModel = mainViewModel,
-                allFavoriteRecipes = allFavoriteRecipes
+                allFavoriteRecipes = allFavoriteRecipes,
+                navigateToDetailedFavoriteScreen = navigateToDetailedFavoriteScreen
             )
         }
     )
