@@ -16,19 +16,44 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
 import fi.lauriari.recipe_app.data.entities.RecipeWithIngredientLines
+import fi.lauriari.recipe_app.screens.detailedrecipe.SingleRecipeTopBar
 import fi.lauriari.recipe_app.ui.theme.bottomNavigationOrange
+import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 
 @Composable
 fun DetailedFavoriteScreen(
     selectedFavorite: RecipeWithIngredientLines?,
-    navigateToFavoritesScreen: () -> Unit
+    navigateToFavoritesScreen: () -> Unit,
+    isRecipeFavorited: Boolean,
+    mainViewModel: MainViewModel
 ) {
+
+    val ingredientLines = selectedFavorite?.ingredientLines?.map {
+        it.description
+    }
 
     Scaffold(
         topBar = {
-
+            SingleRecipeTopBar(
+                isRecipeFavorited = isRecipeFavorited,
+                navigateToPreviousScreen = {
+                    navigateToFavoritesScreen()
+                },
+                onInsertFavorite = {
+                    if (ingredientLines != null) {
+                        mainViewModel.insertFavoriteRecipe(
+                            activeRecipe = selectedFavorite.favoriteRecipe,
+                            ingredientLines = ingredientLines
+                        )
+                    }
+                },
+                onRemoveFavorite = {
+                    mainViewModel.deleteFavoriteRecipe(selectedFavorite?.favoriteRecipe!!.id)
+                }
+            )
         },
         content = {
             DetailedFavoriteContent(

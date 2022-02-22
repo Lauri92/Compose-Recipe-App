@@ -8,20 +8,19 @@ import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import fi.lauriari.recipe_app.ui.theme.bottomNavigationOrange
-import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 
 @Composable
 fun SingleRecipeTopBar(
     isRecipeFavorited: Boolean,
-    navigateToSearchScreen: () -> Unit,
+    navigateToPreviousScreen: () -> Unit,
     onInsertFavorite: () -> Unit,
     onRemoveFavorite: () -> Unit
 ) {
 
     TopAppBar(
         navigationIcon = {
-            BackButton(navigateToSearchScreen = navigateToSearchScreen)
+            BackButton(navigateToSearchScreen = navigateToPreviousScreen)
         },
         title = {
             Text(text = "")
