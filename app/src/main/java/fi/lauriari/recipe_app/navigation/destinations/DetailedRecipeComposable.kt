@@ -16,7 +16,9 @@ fun NavGraphBuilder.detailedRecipeComposable(
         route = Constants.DETAILED_RECIPE_SCREEN,
     ) { navBackStackEntry ->
 
-        mainViewModel.getFavoritedRecipeStatus()
+        mainViewModel.getFavoritedRecipeStatus(
+            mainViewModel.selectedRecipe?.uri?.substringAfter("recipe_").toString()
+        )
         val isRecipeFavorited by mainViewModel.isRecipeFavorited.collectAsState()
 
         DetailedRecipeScreen(

@@ -115,10 +115,7 @@ fun DetailedFavoriteContent(
                         tint = bottomNavigationOrange
                     )
                 }
-
-
             }
-
         }
     }
 }

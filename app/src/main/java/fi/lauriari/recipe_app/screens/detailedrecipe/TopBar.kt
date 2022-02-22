@@ -13,9 +13,10 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun SingleRecipeTopBar(
-    mainViewModel: MainViewModel,
     isRecipeFavorited: Boolean,
-    navigateToSearchScreen: () -> Unit
+    navigateToSearchScreen: () -> Unit,
+    onInsertFavorite: () -> Unit,
+    onRemoveFavorite: () -> Unit
 ) {
 
     TopAppBar(
@@ -28,11 +29,11 @@ fun SingleRecipeTopBar(
         actions = {
             if (isRecipeFavorited) {
                 RemoveFavoriteRecipeIcon(
-                    mainViewModel = mainViewModel
+                    onRemoveFavorite = onRemoveFavorite
                 )
             } else {
                 AddFavoriteRecipeIcon(
-                    mainViewModel = mainViewModel
+                    onInsertFavorite = onInsertFavorite
                 )
             }
         },
@@ -41,11 +42,12 @@ fun SingleRecipeTopBar(
 }
 
 @Composable
-fun AddFavoriteRecipeIcon(mainViewModel: MainViewModel) {
+fun AddFavoriteRecipeIcon(
+    onInsertFavorite: () -> Unit
+) {
     IconButton(
         onClick = {
-            mainViewModel.insertFavoriteRecipe()
-            //mainViewModel.insertIngredientLines()
+            onInsertFavorite()
         }
     ) {
         Icon(
@@ -57,11 +59,11 @@ fun AddFavoriteRecipeIcon(mainViewModel: MainViewModel) {
 
 @Composable
 fun RemoveFavoriteRecipeIcon(
-    mainViewModel: MainViewModel
+    onRemoveFavorite: () -> Unit
 ) {
     IconButton(
         onClick = {
-            mainViewModel.deleteFavoriteRecipe()
+            onRemoveFavorite()
         }
     ) {
         Icon(

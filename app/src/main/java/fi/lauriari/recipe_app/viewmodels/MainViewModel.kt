@@ -132,21 +132,18 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun insertFavoriteRecipe() {
+    fun insertFavoriteRecipe(
+        activeRecipe: FavoriteRecipe,
+        ingredientLines: List<String>
+    ) {
 
         val recipeId = selectedRecipe?.uri?.substringAfter("recipe_").toString()
 
         viewModelScope.launch(Dispatchers.IO) {
             recipeRepository.insertFavoriteRecipe(
-                FavoriteRecipe(
-                    id = recipeId,
-                    label = selectedRecipe?.label.toString(),
-                    imageUrl = selectedRecipe?.image.toString(),
-                    instructionsUrl = selectedRecipe?.url.toString()
-
-                )
+                activeRecipe
             )
-            selectedRecipe?.ingredientLines?.forEach { ingredientLine ->
+            ingredientLines.forEach { ingredientLine ->
                 recipeRepository.insertIngredientLine(
                     IngredientLine(
                         id = 0,
@@ -161,24 +158,20 @@ class MainViewModel @Inject constructor(
     private val _isRecipeFavorited: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isRecipeFavorited: StateFlow<Boolean> = _isRecipeFavorited
 
-    fun getFavoritedRecipeStatus() {
+    fun getFavoritedRecipeStatus(favoriteId: String) {
         viewModelScope.launch {
             recipeRepository.getRecipeById(
-                selectedRecipe?.uri?.substringAfter("recipe_").toString()
+                favoriteId
             ).collect { favoriteRecipe ->
                 _isRecipeFavorited.value = favoriteRecipe != null
             }
         }
     }
 
-    fun deleteFavoriteRecipe() {
+    fun deleteFavoriteRecipe(favoriteId: String) {
         viewModelScope.launch(context = Dispatchers.IO) {
-            recipeRepository.deleteFavoriteRecipe(
-                selectedRecipe?.uri?.substringAfter("recipe_").toString()
-            )
-            recipeRepository.deleteIngredientLines(
-                selectedRecipe?.uri?.substringAfter("recipe_").toString()
-            )
+            recipeRepository.deleteFavoriteRecipe(favoriteId)
+            recipeRepository.deleteIngredientLines(favoriteId)
         }
     }
 
