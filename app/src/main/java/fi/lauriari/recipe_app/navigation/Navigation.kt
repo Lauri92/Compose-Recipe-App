@@ -47,7 +47,8 @@ fun InitNavigation(
         )
 
         detailedFavoriteComposable(
-
+            mainViewModel = mainViewModel,
+            navigateToFavoritesScreen = screen.favorites
         )
     }
 }

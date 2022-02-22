@@ -126,7 +126,7 @@ class MainViewModel @Inject constructor(
 
     private fun getAllFavoriteRecipes() {
         viewModelScope.launch(context = Dispatchers.IO) {
-            recipeRepository.getAllFavoriteRecipes.collect {  recipeWithIngredientLines ->
+            recipeRepository.getAllFavoriteRecipes.collect { recipeWithIngredientLines ->
                 _allFavoriteRecipes.value = recipeWithIngredientLines
             }
         }
@@ -179,6 +179,18 @@ class MainViewModel @Inject constructor(
             recipeRepository.deleteIngredientLines(
                 selectedRecipe?.uri?.substringAfter("recipe_").toString()
             )
+        }
+    }
+
+    private val _selectedFavorite: MutableStateFlow<RecipeWithIngredientLines?> =
+        MutableStateFlow(null)
+    val selectedFavorite: StateFlow<RecipeWithIngredientLines?> = _selectedFavorite
+
+    fun getSelectedFavorite(favoriteId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            recipeRepository.getSelectedFavorite(favoriteId).collect { favorite ->
+                _selectedFavorite.value = favorite
+            }
         }
     }
 

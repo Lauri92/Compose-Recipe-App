@@ -28,4 +28,7 @@ interface FavoriteRecipeDao {
     @Query("DELETE FROM ingredient_lines_table WHERE recipeId= :recipeId")
     suspend fun deleteIngredientLines(recipeId: String)
 
+    @Query("SELECT * FROM favorite_recipe_table WHERE id= :favoriteId")
+    fun getSelectedFavorite(favoriteId: String): Flow<RecipeWithIngredientLines>
+
 }

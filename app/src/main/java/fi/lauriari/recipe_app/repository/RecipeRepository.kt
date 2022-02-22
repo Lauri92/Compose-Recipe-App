@@ -78,4 +78,8 @@ class RecipeRepository @Inject constructor(
         return favoriteRecipeDao.getRecipeById(id)
     }
 
+    fun getSelectedFavorite(favoriteId: String): Flow<RecipeWithIngredientLines> {
+        return favoriteRecipeDao.getSelectedFavorite(favoriteId)
+    }
+
 }
