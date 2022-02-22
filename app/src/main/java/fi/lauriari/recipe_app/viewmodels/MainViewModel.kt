@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
 import fi.lauriari.recipe_app.data.entities.IngredientLine
+import fi.lauriari.recipe_app.data.entities.RecipeWithIngredientLines
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
 import fi.lauriari.recipe_app.data.model.Recipe
@@ -120,17 +121,16 @@ class MainViewModel @Inject constructor(
     }
 
     private val _allFavoriteRecipes =
-        MutableStateFlow<List<FavoriteRecipe>>(emptyList())
-    val allFavoriteRecipes: StateFlow<List<FavoriteRecipe>> = _allFavoriteRecipes
+        MutableStateFlow<List<RecipeWithIngredientLines>>(emptyList())
+    val allFavoriteRecipes: StateFlow<List<RecipeWithIngredientLines>> = _allFavoriteRecipes
 
     private fun getAllFavoriteRecipes() {
         viewModelScope.launch(context = Dispatchers.IO) {
-            recipeRepository.getAllFavoriteRecipes.collect { favoriteRecipeList ->
-                _allFavoriteRecipes.value = favoriteRecipeList
+            recipeRepository.getAllFavoriteRecipes.collect {  recipeWithIngredientLines ->
+                _allFavoriteRecipes.value = recipeWithIngredientLines
             }
         }
     }
-
 
     fun insertFavoriteRecipe() {
 

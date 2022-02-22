@@ -7,6 +7,7 @@ import fi.lauriari.recipe_app.data.api.RecipeApiRetrofitInstance.api
 import fi.lauriari.recipe_app.data.dao.FavoriteRecipeDao
 import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
 import fi.lauriari.recipe_app.data.entities.IngredientLine
+import fi.lauriari.recipe_app.data.entities.RecipeWithIngredientLines
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -53,8 +54,7 @@ class RecipeRepository @Inject constructor(
         }.flowOn(context = Dispatchers.IO) // Optional
     }
 
-
-    val getAllFavoriteRecipes: Flow<List<FavoriteRecipe>> =
+    val getAllFavoriteRecipes: Flow<List<RecipeWithIngredientLines>> =
         favoriteRecipeDao.getAllFavoriteRecipes()
 
     suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe) {

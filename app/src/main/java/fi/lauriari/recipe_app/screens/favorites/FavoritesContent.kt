@@ -5,17 +5,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import fi.lauriari.recipe_app.data.entities.FavoriteRecipe
+import fi.lauriari.recipe_app.data.entities.RecipeWithIngredientLines
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun FavoritesContent(
     mainViewModel: MainViewModel,
-    allFavoriteRecipes: State<List<FavoriteRecipe>>
+    allFavoriteRecipes: State<List<RecipeWithIngredientLines>>
 ) {
 
     Column() {
-        allFavoriteRecipes.value.forEach {
-            Text(it.label)
+        allFavoriteRecipes.value.forEach { combination ->
+            Text(combination.favoriteRecipe.label)
+            combination.ingredientLines.forEach { ingredientLine ->
+                Text(ingredientLine.description)
+            }
         }
     }
 }
