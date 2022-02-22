@@ -5,10 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -27,15 +24,12 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 fun FavoritesContent(
     mainViewModel: MainViewModel,
     allFavoriteRecipes: State<List<RecipeWithIngredientLines>>,
-    navigateToDetailedFavoriteScreen: (String) -> Unit
+    navigateToDetailedFavoriteScreen: (String) -> Unit,
+    favoritesListState: LazyListState
 ) {
 
-    val context = LocalContext.current
-
-    val listState = rememberLazyListState()
-
     LazyVerticalGrid(
-        state = listState,
+        state = favoritesListState,
         cells = GridCells.Adaptive(minSize = 160.dp),
         contentPadding = PaddingValues(
             start = 21.dp,

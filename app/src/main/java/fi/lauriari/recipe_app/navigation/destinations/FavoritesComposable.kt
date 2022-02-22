@@ -1,5 +1,6 @@
 package fi.lauriari.recipe_app.navigation.destinations
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import fi.lauriari.recipe_app.screens.favorites.FavoritesScreen
@@ -9,7 +10,8 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 fun NavGraphBuilder.favoritesComposable(
     mainViewModel: MainViewModel,
     navigateToSearchScreen: () -> Unit,
-    navigateToDetailedFavoriteScreen: (String) -> Unit
+    navigateToDetailedFavoriteScreen: (String) -> Unit,
+    favoritesListState: LazyListState
 ) {
     composable(
         route = FAVORITES_SCREEN
@@ -17,6 +19,7 @@ fun NavGraphBuilder.favoritesComposable(
 
         FavoritesScreen(
             mainViewModel = mainViewModel,
+            favoritesListState = favoritesListState,
             navigateToSearchScreen = navigateToSearchScreen,
             navigateToDetailedFavoriteScreen = navigateToDetailedFavoriteScreen
         )

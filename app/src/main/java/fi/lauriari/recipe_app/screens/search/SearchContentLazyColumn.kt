@@ -102,8 +102,6 @@ fun ShowRecipes(
 
     val nextpageSearchData by mainViewModel.nextpageSearchData.collectAsState()
 
-    //val listState = rememberLazyListState()
-
     val coroutineScope = rememberCoroutineScope()
 
     val showButton by remember {

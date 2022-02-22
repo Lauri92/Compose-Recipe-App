@@ -1,5 +1,6 @@
 package fi.lauriari.recipe_app.screens.favorites
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,7 +11,8 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 fun FavoritesScreen(
     mainViewModel: MainViewModel,
     navigateToSearchScreen: () -> Unit,
-    navigateToDetailedFavoriteScreen: (String) -> Unit
+    navigateToDetailedFavoriteScreen: (String) -> Unit,
+    favoritesListState: LazyListState
 ) {
 
     val allFavoriteRecipes = mainViewModel.allFavoriteRecipes.collectAsState()
@@ -26,6 +28,7 @@ fun FavoritesScreen(
         content = {
             FavoritesContent(
                 mainViewModel = mainViewModel,
+                favoritesListState = favoritesListState,
                 allFavoriteRecipes = allFavoriteRecipes,
                 navigateToDetailedFavoriteScreen = navigateToDetailedFavoriteScreen
             )

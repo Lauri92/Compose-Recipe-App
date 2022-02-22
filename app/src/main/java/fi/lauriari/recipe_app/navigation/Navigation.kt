@@ -22,6 +22,7 @@ fun InitNavigation(
     }
 
     val listState = rememberLazyListState()
+    val favoritesListState = rememberLazyListState()
 
     NavHost(
         navController = navController,
@@ -42,6 +43,7 @@ fun InitNavigation(
 
         favoritesComposable(
             mainViewModel = mainViewModel,
+            favoritesListState = favoritesListState,
             navigateToSearchScreen = screen.search,
             navigateToDetailedFavoriteScreen = screen.detailedFavorite
         )
