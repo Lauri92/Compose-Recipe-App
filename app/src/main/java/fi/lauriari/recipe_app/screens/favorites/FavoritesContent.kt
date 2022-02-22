@@ -51,6 +51,7 @@ fun FavoritesContent(
                 modifier = Modifier
                     .clickable {
                         navigateToDetailedFavoriteScreen(favorite.favoriteRecipe.id)
+                        mainViewModel.selectedRecipeWithIngredientLines = favorite
                     }
                     .padding(top = 10.dp, bottom = 10.dp)
                     .fillMaxWidth()

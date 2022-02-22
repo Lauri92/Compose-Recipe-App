@@ -45,6 +45,7 @@ class MainViewModel @Inject constructor(
     var visibleButtonIndex: MutableState<Int> = mutableStateOf(6)
 
     var selectedRecipe: Recipe? = null
+    var selectedRecipeWithIngredientLines: RecipeWithIngredientLines? = null
 
     private var _searchData =
         MutableStateFlow<APIRequestState<EdamamSearchResult>>(APIRequestState.Idle)

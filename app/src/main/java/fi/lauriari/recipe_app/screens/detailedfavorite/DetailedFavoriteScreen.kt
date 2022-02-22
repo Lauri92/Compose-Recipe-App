@@ -25,13 +25,12 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun DetailedFavoriteScreen(
-    selectedFavorite: RecipeWithIngredientLines?,
     navigateToFavoritesScreen: () -> Unit,
     isRecipeFavorited: Boolean,
     mainViewModel: MainViewModel
 ) {
 
-    val ingredientLines = selectedFavorite?.ingredientLines?.map {
+    val ingredientLines = mainViewModel.selectedRecipeWithIngredientLines?.ingredientLines?.map {
         it.description
     }
 
@@ -43,21 +42,23 @@ fun DetailedFavoriteScreen(
                     navigateToFavoritesScreen()
                 },
                 onInsertFavorite = {
-                    if (ingredientLines != null) {
+                    if (mainViewModel.selectedRecipeWithIngredientLines != null) {
                         mainViewModel.insertFavoriteRecipe(
-                            activeRecipe = selectedFavorite.favoriteRecipe,
-                            ingredientLines = ingredientLines
+                            activeRecipe = mainViewModel.selectedRecipeWithIngredientLines!!.favoriteRecipe,
+                            ingredientLines = ingredientLines!!
                         )
                     }
                 },
                 onRemoveFavorite = {
-                    mainViewModel.deleteFavoriteRecipe(selectedFavorite?.favoriteRecipe!!.id)
+                    mainViewModel.deleteFavoriteRecipe(
+                        mainViewModel.selectedRecipeWithIngredientLines!!.favoriteRecipe.id
+                    )
                 }
             )
         },
         content = {
             DetailedFavoriteContent(
-                selectedFavorite = selectedFavorite
+                selectedFavorite = mainViewModel.selectedRecipeWithIngredientLines
             )
         })
 

@@ -25,17 +25,12 @@ fun NavGraphBuilder.detailedFavoriteComposable(
 
         val selectedFavoriteId = navBackStackEntry.arguments!!.getString(DETAILED_FAVORITE_KEY)
 
-        LaunchedEffect(key1 = selectedFavoriteId) {
-            mainViewModel.getSelectedFavorite(selectedFavoriteId.toString())
-            mainViewModel.getFavoritedRecipeStatus(selectedFavoriteId.toString())
-        }
+        mainViewModel.getFavoritedRecipeStatus(selectedFavoriteId.toString())
 
         val isRecipeFavorited by mainViewModel.isRecipeFavorited.collectAsState()
-        val selectedFavorite by mainViewModel.selectedFavorite.collectAsState()
 
         DetailedFavoriteScreen(
             mainViewModel = mainViewModel,
-            selectedFavorite = selectedFavorite,
             isRecipeFavorited = isRecipeFavorited,
             navigateToFavoritesScreen = navigateToFavoritesScreen
         )
