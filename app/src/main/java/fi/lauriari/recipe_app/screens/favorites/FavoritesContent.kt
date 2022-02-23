@@ -35,6 +35,7 @@ fun FavoritesContent(
             },
     ) {
         FoodSearchBar(
+            placeholderText = "Search for a Favorite",
             searchTextState = searchFavoriteRecipesTextState,
             onValueChange = { newText ->
                 mainViewModel.searchFavoriteRecipesTextState.value = newText

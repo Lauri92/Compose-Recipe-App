@@ -51,6 +51,7 @@ fun SearchScreenContent(
     ) {
 
         FoodSearchBar(
+            placeholderText = "Search for a Recipe",
             searchTextState = searchTextState,
             onValueChange = { newText ->
                 mainViewModel.searchNewRecipesTextState.value = newText

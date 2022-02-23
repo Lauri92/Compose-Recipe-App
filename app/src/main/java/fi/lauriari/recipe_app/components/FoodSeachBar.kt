@@ -15,21 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import fi.lauriari.recipe_app.R
 import fi.lauriari.recipe_app.ui.theme.BottomNavOrange
 import fi.lauriari.recipe_app.ui.theme.FocusedSearchBackgroundColor
 import fi.lauriari.recipe_app.ui.theme.SearchBarTextColor
 import fi.lauriari.recipe_app.ui.theme.UnfocusedSearchBackgroundColor
-import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun FoodSearchBar(
+    placeholderText: String,
     searchTextState: String,
     onValueChange: (String) -> Unit,
     onSearchPressed: () -> Unit,
@@ -62,7 +59,7 @@ fun FoodSearchBar(
         ),
         placeholder = {
             Text(
-                text = stringResource(id = R.string.search_for_a_recipe_ph),
+                text = placeholderText,
                 color = SearchBarTextColor
             )
         },

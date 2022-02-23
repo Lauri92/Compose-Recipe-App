@@ -33,7 +33,7 @@ fun FavoritesList(
             start = 21.dp,
             top = 16.dp,
             end = 12.dp,
-            bottom = 16.dp
+            bottom = 50.dp
         ),
     ) {
         items(
