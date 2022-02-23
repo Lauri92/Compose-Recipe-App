@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import fi.lauriari.recipe_app.components.BottomNavBar
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
@@ -16,6 +17,7 @@ fun FavoritesScreen(
 ) {
 
     val allFavoriteRecipes = mainViewModel.allFavoriteRecipes.collectAsState()
+    val searchFavoriteRecipesTextState: String by mainViewModel.searchFavoriteRecipesTextState
 
     Scaffold(
         bottomBar = {
@@ -28,6 +30,7 @@ fun FavoritesScreen(
         content = {
             FavoritesContent(
                 mainViewModel = mainViewModel,
+                searchFavoriteRecipesTextState = searchFavoriteRecipesTextState,
                 favoritesListState = favoritesListState,
                 allFavoriteRecipes = allFavoriteRecipes,
                 navigateToDetailedFavoriteScreen = navigateToDetailedFavoriteScreen

@@ -1,4 +1,4 @@
-package fi.lauriari.recipe_app.screens.search
+package fi.lauriari.recipe_app.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
