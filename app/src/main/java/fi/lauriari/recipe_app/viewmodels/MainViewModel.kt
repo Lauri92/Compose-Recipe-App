@@ -34,7 +34,9 @@ class MainViewModel @Inject constructor(
 
     var selectedScreen: MutableState<String> = mutableStateOf(SEARCH_SCREEN)
 
-    val searchTextState: MutableState<String> = mutableStateOf("")
+    val searchNewRecipesTextState: MutableState<String> = mutableStateOf("")
+    val searchFavoriteRecipesTextState: MutableState<String> = mutableStateOf("")
+
     val cuisineType: MutableState<String?> = mutableStateOf(null)
     val mealType: MutableState<String?> = mutableStateOf(null)
     val dishType: MutableState<String?> = mutableStateOf(null)

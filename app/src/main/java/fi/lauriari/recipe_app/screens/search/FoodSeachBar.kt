@@ -30,10 +30,9 @@ import fi.lauriari.recipe_app.viewmodels.MainViewModel
 
 @Composable
 fun FoodSearchBar(
-    mainViewModel: MainViewModel,
     searchTextState: String,
-    appIdValue: String,
-    appKeyValue: String,
+    onValueChange: (String) -> Unit,
+    onSearchPressed: () -> Unit,
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -68,7 +67,7 @@ fun FoodSearchBar(
             )
         },
         onValueChange = { newText ->
-            mainViewModel.searchTextState.value = newText
+            onValueChange(newText)
         },
         textStyle = TextStyle(
             color = Color.Black,
@@ -78,13 +77,8 @@ fun FoodSearchBar(
         trailingIcon = {
             IconButton(
                 onClick = {
-                    mainViewModel.visibleButtonIndex.value = 6
                     focusManager.clearFocus()
-                    mainViewModel.getRecipesByQuery(
-                        appIdValue = appIdValue,
-                        appKeyValue = appKeyValue,
-                        searchQuery = searchTextState,
-                    )
+                    onSearchPressed()
                 },
             ) {
                 Icon(
@@ -99,13 +93,8 @@ fun FoodSearchBar(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                mainViewModel.visibleButtonIndex.value = 6
+                onSearchPressed()
                 focusManager.clearFocus()
-                mainViewModel.getRecipesByQuery(
-                    appIdValue = appIdValue,
-                    appKeyValue = appKeyValue,
-                    searchQuery = searchTextState
-                )
             },
         )
     )

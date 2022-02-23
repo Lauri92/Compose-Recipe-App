@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -51,12 +50,19 @@ fun SearchScreenContent(
     ) {
 
         FoodSearchBar(
-            mainViewModel = mainViewModel,
             searchTextState = searchTextState,
-            appIdValue = appIdValue,
-            appKeyValue = appKeyValue
+            onValueChange = { newText ->
+                mainViewModel.searchNewRecipesTextState.value = newText
+            },
+            onSearchPressed = {
+                mainViewModel.visibleButtonIndex.value = 6
+                mainViewModel.getRecipesByQuery(
+                    appIdValue = appIdValue,
+                    appKeyValue = appKeyValue,
+                    searchQuery = searchTextState,
+                )
+            }
         )
-
         AdvancedSearch(
             onCuisineTypeSelected = onCuisineTypeSelected,
             onMealTypeSelected = onMealTypeSelected,

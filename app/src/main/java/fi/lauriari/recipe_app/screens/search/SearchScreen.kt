@@ -16,7 +16,7 @@ fun SearchScreen(
     navigateToFavoritesScreen: () -> Unit,
 ) {
 
-    val searchTextState: String by mainViewModel.searchTextState
+    val searchTextState: String by mainViewModel.searchNewRecipesTextState
 
 
     Scaffold(
