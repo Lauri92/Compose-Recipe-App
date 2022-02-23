@@ -123,14 +123,25 @@ class MainViewModel @Inject constructor(
         _nextpageSearchData.value = APIRequestState.Idle
     }
 
-    private val _allFavoriteRecipes =
+    private val _selectedFavoriteRecipes =
         MutableStateFlow<List<RecipeWithIngredientLines>>(emptyList())
-    val allFavoriteRecipes: StateFlow<List<RecipeWithIngredientLines>> = _allFavoriteRecipes
+    val selectedFavoriteRecipes: StateFlow<List<RecipeWithIngredientLines>> = _selectedFavoriteRecipes
 
-    private fun getAllFavoriteRecipes() {
+    fun getAllFavoriteRecipes() {
         viewModelScope.launch(context = Dispatchers.IO) {
-            recipeRepository.getAllFavoriteRecipes.collect { recipeWithIngredientLines ->
-                _allFavoriteRecipes.value = recipeWithIngredientLines
+            recipeRepository.getAllFavoriteRecipes.collect { recipesWithIngredientLines ->
+                _selectedFavoriteRecipes.value = recipesWithIngredientLines
+            }
+        }
+    }
+
+    fun searchFavoriteRecipes(filter: String) {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            recipeRepository.getAllFavoriteRecipes.collect { recipesWithIngredientLines ->
+                val filteredList = recipesWithIngredientLines.filter { singleRecipe ->
+                    singleRecipe.favoriteRecipe.label.lowercase().contains(filter.lowercase())
+                }
+                _selectedFavoriteRecipes.value = filteredList
             }
         }
     }

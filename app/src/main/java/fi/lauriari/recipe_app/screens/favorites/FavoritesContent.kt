@@ -38,8 +38,19 @@ fun FavoritesContent(
             searchTextState = searchFavoriteRecipesTextState,
             onValueChange = { newText ->
                 mainViewModel.searchFavoriteRecipesTextState.value = newText
+                if (mainViewModel.searchFavoriteRecipesTextState.value != "") {
+                    mainViewModel.searchFavoriteRecipes(mainViewModel.searchFavoriteRecipesTextState.value)
+                } else {
+                    mainViewModel.getAllFavoriteRecipes()
+                }
             },
-            onSearchPressed = {}
+            onSearchPressed = {
+                if (mainViewModel.searchFavoriteRecipesTextState.value != "") {
+                    mainViewModel.searchFavoriteRecipes(mainViewModel.searchFavoriteRecipesTextState.value)
+                } else {
+                    mainViewModel.getAllFavoriteRecipes()
+                }
+            }
         )
 
         FavoritesList(

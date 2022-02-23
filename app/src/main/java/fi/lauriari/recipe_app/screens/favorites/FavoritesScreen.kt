@@ -16,7 +16,7 @@ fun FavoritesScreen(
     favoritesListState: LazyListState
 ) {
 
-    val allFavoriteRecipes = mainViewModel.allFavoriteRecipes.collectAsState()
+    val allFavoriteRecipes = mainViewModel.selectedFavoriteRecipes.collectAsState()
     val searchFavoriteRecipesTextState: String by mainViewModel.searchFavoriteRecipesTextState
 
     Scaffold(
