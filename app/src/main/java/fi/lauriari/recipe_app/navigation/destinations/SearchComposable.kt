@@ -1,6 +1,7 @@
 package fi.lauriari.recipe_app.navigation.destinations
 
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import fi.lauriari.recipe_app.screens.search.SearchScreen
@@ -12,6 +13,7 @@ fun NavGraphBuilder.searchComposable(
     navigateToDetailedRecipeScreen: () -> Unit,
     listState: LazyListState,
     navigateToFavoritesScreen: () -> Unit,
+    image: Painter?,
 ) {
     composable(
         route = SEARCH_SCREEN,
@@ -21,7 +23,8 @@ fun NavGraphBuilder.searchComposable(
             mainViewModel = mainViewModel,
             navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,
             navigateToFavoritesScreen = navigateToFavoritesScreen,
-            listState = listState
+            listState = listState,
+            image = image,
         )
     }
 }

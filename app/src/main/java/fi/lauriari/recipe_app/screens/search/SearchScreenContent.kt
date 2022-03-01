@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -27,7 +28,8 @@ fun SearchScreenContent(
     onDishTypeSelected: (String) -> Unit,
     onResetDishType: () -> Unit,
     navigateToDetailedRecipeScreen: () -> Unit,
-    listState: LazyListState
+    listState: LazyListState,
+    image: Painter?
 ) {
 
     val ai: ApplicationInfo = LocalContext.current.packageManager
@@ -78,6 +80,7 @@ fun SearchScreenContent(
         )
 
         SearchContentLazyColumn(
+            image = image,
             searchData = searchData,
             mainViewModel = mainViewModel,
             navigateToDetailedRecipeScreen = navigateToDetailedRecipeScreen,

@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import fi.lauriari.recipe_app.viewmodels.MainViewModel
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.painter.Painter
 import fi.lauriari.recipe_app.components.BottomNavBar
 
 
@@ -14,6 +15,7 @@ fun SearchScreen(
     navigateToDetailedRecipeScreen: () -> Unit,
     listState: LazyListState,
     navigateToFavoritesScreen: () -> Unit,
+    image: Painter?,
 ) {
 
     val searchTextState: String by mainViewModel.searchNewRecipesTextState
@@ -33,6 +35,7 @@ fun SearchScreen(
                 listState = listState,
                 mainViewModel = mainViewModel,
                 searchTextState = searchTextState,
+                image = image,
                 onCuisineTypeSelected = {
                     mainViewModel.cuisineType.value = it
                 },

@@ -39,10 +39,13 @@ fun SelectedFiltersRow(
                 .fillMaxWidth()
         ) {
             items(items = list) { item ->
-                if(item.first != null) {
-                    SelectedFilterItem(selectedFilterValue = item.first!!) {
-                        item.second()
-                    }
+                if (item.first != null) {
+                    SelectedFilterItem(
+                        selectedFilterValue = item.first!!,
+                        onResetType = {
+                            item.second()
+                        }
+                    )
                 }
             }
         }

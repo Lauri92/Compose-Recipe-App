@@ -18,11 +18,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import fi.lauriari.recipe_app.R
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
 import fi.lauriari.recipe_app.data.model.Hits
 import fi.lauriari.recipe_app.data.model.Recipe
@@ -37,6 +41,7 @@ fun SearchContentLazyColumn(
     mainViewModel: MainViewModel,
     navigateToDetailedRecipeScreen: () -> Unit,
     listState: LazyListState,
+    image: Painter?,
 ) {
 
     val context = LocalContext.current
@@ -74,12 +79,23 @@ fun SearchContentLazyColumn(
             Text(text = "Error loading recipes")
         }
         is APIRequestState.Idle -> {
-            Text(
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 150.dp),
-                text = "Find what your heart and stomach desire..",
-                fontSize = 36.sp
-            )
+
+
+            Box {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    painter = image!!,
+                    contentDescription = ""
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(start = 30.dp, end = 30.dp, top = 75.dp),
+                    text = "Find what your heart and stomach desire..",
+                    fontSize = 36.sp
+                )
+            }
         }
         is APIRequestState.BadResponse -> {
             Toast.makeText(context, "Error fetching recipes", Toast.LENGTH_SHORT).show()
