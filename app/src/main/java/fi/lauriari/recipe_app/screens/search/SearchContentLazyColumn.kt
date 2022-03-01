@@ -1,6 +1,7 @@
 package fi.lauriari.recipe_app.screens.search
 
 import android.annotation.SuppressLint
+import android.os.Build.VERSION.SDK_INT
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -9,6 +10,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -18,13 +20,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.ImageLoader
 import coil.compose.rememberImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.size.OriginalSize
 import coil.transform.CircleCropTransformation
 import fi.lauriari.recipe_app.R
 import fi.lauriari.recipe_app.data.model.EdamamSearchResult
@@ -63,15 +70,38 @@ fun SearchContentLazyColumn(
         is APIRequestState.Loading -> {
             Box(
                 modifier = Modifier
+                    .background(Color.Black)
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
-            ) {
+            ) {/*
                 CircularProgressIndicator(
                     modifier = Modifier
                         .padding(all = 25.dp)
                         .size(200.dp),
                     color = BottomNavOrange,
                     strokeWidth = 10.dp
+                )*/
+
+                val imageLoader = ImageLoader.Builder(context)
+                    .componentRegistry {
+                        if (SDK_INT >= 28) {
+                            add(ImageDecoderDecoder(context))
+                        } else {
+                            add(GifDecoder())
+                        }
+                    }
+                    .build()
+
+
+                Image(
+                    painter = rememberImagePainter(
+                        imageLoader = imageLoader,
+                        data = R.drawable.synfiganimation1,
+                        builder = {
+                            size(OriginalSize)
+                        }
+                    ),
+                    contentDescription = null,
                 )
             }
         }
